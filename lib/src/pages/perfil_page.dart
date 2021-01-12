@@ -30,6 +30,7 @@ class _PerfilPageState extends State<PerfilPage> {
   TextEditingController _telefonoController = TextEditingController();
   String id = '';
   String fotoUser = '';
+
   @override
   Widget build(BuildContext context) {
     perfilBloc = Provider.perfilBloc(context);

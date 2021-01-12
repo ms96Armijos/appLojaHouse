@@ -39,6 +39,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
   String pathDelDocumento;
 
   final pdf = pw.Document();
+  
 
   @override
   Widget build(BuildContext context) {

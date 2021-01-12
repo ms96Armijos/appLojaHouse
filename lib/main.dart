@@ -32,7 +32,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final preferencias = new PreferenciasUsuario();
 
-    print(preferencias.token);
+    //print(preferencias.token);
+
+    if(preferencias.token != true){
+      print(preferencias.token);
+    }else{
+      preferencias.clear();
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }
     return Provider(
       child: MaterialApp(
         localizationsDelegates: [

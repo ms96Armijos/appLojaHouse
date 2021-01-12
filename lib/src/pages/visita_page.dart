@@ -32,6 +32,7 @@ class _VisitaPageState extends State<VisitaPage> {
 
   DateTime tiempo = new DateTime.now();
 
+  
   @override
   Widget build(BuildContext context) {
     final inmuebleObtenido = ModalRoute.of(context).settings.arguments;
@@ -402,7 +403,7 @@ class _VisitaPageState extends State<VisitaPage> {
     }*/
 
     print('hola ' + visitaModel.fecha.toString());
-    mostrarSnackBar('Registro exitoso');
+    mostrarSnackBar('Visita registrada exitosamente');
     final _debouncer = Debouncer(milliseconds: 2000);
     _debouncer.run(() => Navigator.pushReplacementNamed(context, 'home'));
     //Navigator.pop(context);

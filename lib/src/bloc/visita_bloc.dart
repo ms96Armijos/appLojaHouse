@@ -25,7 +25,7 @@ class VisitaBloc {
   }
 
 
-  void agregarVisita(VisitaModel visita) async{
+  void crearVisita(VisitaModel visita) async{
     _cargandoDatosController.sink.add(true);
     await _visitaProvider.crearVisita(visita);
     _cargandoDatosController.sink.add(false);

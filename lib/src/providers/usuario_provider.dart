@@ -40,13 +40,6 @@ class UsuarioProvider {
   }
 
 
-
-
-
-
-
-
-
  Future<http.StreamedResponse> actualizarImagen(String filePath) async{
     final url = '$_url/img/usuarios/${preferencias.idUsuario}';
     var request = http.MultipartRequest('PUT', Uri.parse(url));

@@ -14,6 +14,12 @@ class _ReseteoPasswordPage extends State<ReseteoPasswordPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    loginBloc.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     loginBloc = new LoginBloc();
 

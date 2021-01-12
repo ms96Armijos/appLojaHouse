@@ -5,10 +5,22 @@ import 'package:applojahouse/src/utils/utils.dart';
 import 'package:applojahouse/src/widgets/banner_widget.dart';
 import 'package:flutter/material.dart';
 
-class RegistroPage extends StatelessWidget {
+class RegistroPage extends StatefulWidget {
+  @override
+  _RegistroPageState createState() => _RegistroPageState();
+}
+
+class _RegistroPageState extends State<RegistroPage> {
   final UsuarioModel usuario = new UsuarioModel();
+
   RegistroBloc bloc;
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    bloc.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     bloc = new RegistroBloc();
@@ -21,8 +33,6 @@ class RegistroPage extends StatelessWidget {
       ),
     );
   }
-
-  
 
   _loginForm(BuildContext context) {
     final size = MediaQuery.of(context).size;

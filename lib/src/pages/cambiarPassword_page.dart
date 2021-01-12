@@ -16,6 +16,12 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
   bool visible = true;
   bool visibleConfirmarPassword = true;
 
+@override
+  void dispose() {
+    // TODO: implement dispose
+    loginBloc.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     loginBloc = new LoginBloc();
