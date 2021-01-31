@@ -9,15 +9,17 @@ class ContratoProvider {
   final preferenciaToken = new PreferenciasUsuario();
 
   Future<ContratoModel> obtenerContratos() async {
-    final url ='$_url/contrato/arrendatario/obtenercontratos/0?token=${preferenciaToken.token}';
+    final url =
+        '$_url/contrato/arrendatario/obtenercontratos/0?token=${preferenciaToken.token}';
 
     final resp = await http.get(
       url,
       headers: {"Content-type": "application/json"},
     );
+
     //Si el código es de acceso no autorizado, retorna null
     if (resp.statusCode == 401) {
-      return null;
+      return contratoModelFromJson(resp.body);
     } else {
       final body = contratoModelFromJson(resp.body);
       return body;
@@ -27,20 +29,46 @@ class ContratoProvider {
     //return body;
   }
 
+  Future<bool> verificartoken() async {
+    final url =
+        '$_url/contrato/arrendatario/obtenercontratos/0?token=${preferenciaToken.token}';
+    bool result;
+    final resp = await http.get(
+      url,
+      headers: {"Content-type": "application/json"},
+    );
 
-  Future<ContratoModel> obtenerContratoEspecifico(String id) async{
-    final url = '$_url/contrato/obtenercontrato/$id'+'?token='+ preferenciaToken.token;
-    final resp = await http.get( url, headers: {"Content-type": "application/json"},);
+    //Si el código es de acceso no autorizado, retorna null
+    if (resp.statusCode == 401) {
+      result = true;
+    } else {
+      result = false;
+    }
+    return result;
+
+    //print(body);
+    //return body;
+  }
+
+  Future<ContratoModel> obtenerContratoEspecifico(String id) async {
+    final url = '$_url/contrato/obtenercontrato/$id' +
+        '?token=' +
+        preferenciaToken.token;
+    final resp = await http.get(
+      url,
+      headers: {"Content-type": "application/json"},
+    );
     final body = contratoModelFromJson(resp.body);
     //print(resp.body);
     return body;
   }
 
+  Future<Map<String, dynamic>> aceptarContrato(
+      String id, String acuerdo, String estado) async {
+    final authData = {'acuerdo': acuerdo, 'estado': estado};
 
-    Future<Map<String, dynamic>> aceptarContrato(String id, String acuerdo) async {
-    final authData = {'acuerdo': acuerdo};
-
-    final url = '$_url/contrato/acuerdo/$id/aceptar?token='+preferenciaToken.token;
+    final url =
+        '$_url/contrato/acuerdo/$id/aceptar?token=' + preferenciaToken.token;
     final resp = await http.put(url,
         headers: {"Content-type": "application/json"},
         body: json.encode(authData));
@@ -49,10 +77,6 @@ class ContratoProvider {
 
     return decodeData;
   }
-  
-
-
-
 
   //TODO: EDITAR ESTE MÉTODO
   Future<int> borrarContrato(String id) async {

@@ -14,6 +14,7 @@ class _NotificacionPageState extends State<NotificacionPage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final List<Message> messages = [];
 
+  String _homeScreenText;
   @override
   void initState() {
     // TODO: implement initState
@@ -39,10 +40,24 @@ class _NotificacionPageState extends State<NotificacionPage> {
       }
     );
 
+    _firebaseMessaging.subscribeToTopic('all');
+
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(sound: true, badge: true, alert: true)
     );
+
+_firebaseMessaging.getToken().then((value) => print('mi token $value'));
+    /*_firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {
+        _homeScreenText = "Push Messaging token: $token";
+      });
+      print([_homeScreenText]);
+    });*/
   }
+  
+
+  
 
   @override
   Widget build(BuildContext context) {

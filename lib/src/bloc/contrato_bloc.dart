@@ -30,8 +30,8 @@ class ContratoBloc {
   }
 
 
- Future<Map<String, dynamic>> aceptarContrato(String id, String acuerdo) async {
-    final respuesta = await _contratoProvider.aceptarContrato(id, acuerdo);
+ Future<Map<String, dynamic>> aceptarContrato(String id, String acuerdo, String estado) async {
+    final respuesta = await _contratoProvider.aceptarContrato(id, acuerdo, estado);
     return respuesta;
   }
 

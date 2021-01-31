@@ -1,14 +1,39 @@
 import 'package:applojahouse/src/bloc/inmueble_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/models/inmueble_model.dart';
+import 'package:applojahouse/src/pages/login_page.dart';
+import 'package:applojahouse/src/providers/contrato_provider.dart';
 import 'package:applojahouse/src/widgets/menu_widget.dart';
 import 'package:applojahouse/src/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final estiloTitulo = TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
+
   final estiloSubTitulo = TextStyle(fontSize: 13.0, color: Colors.grey);
+  final contra = ContratoProvider();
+
+  Future<void> prueba() async{
+    bool verify = await contra.verificartoken();
+    if(verify){
+     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }else{
+      print('Token válido');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    prueba();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +59,6 @@ class HomePage extends StatelessWidget {
       //floatingActionButton: _crearBoton(context),
     );
   }
-
 
   _crearListadoInmuebles(InmuebleBloc inmuebleBloc) {
     return StreamBuilder(
@@ -180,7 +204,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
 
   _crearSliderDeImagenes(BuildContext context, Inmueble inmuebleModel) {
     return Container(

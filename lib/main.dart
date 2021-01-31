@@ -1,3 +1,4 @@
+import 'package:applojahouse/src/Notificaciones/notificaciones_page.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/pages/aceptarContrato_page.dart';
 import 'package:applojahouse/src/pages/cambiarPassword_page.dart';
@@ -5,12 +6,14 @@ import 'package:applojahouse/src/pages/home_page.dart';
 import 'package:applojahouse/src/pages/listaContratosArrendatario_page.dart';
 import 'package:applojahouse/src/pages/login_page.dart';
 import 'package:applojahouse/src/pages/perfil_page.dart';
+import 'package:applojahouse/src/pages/recibirNotificacion_page.dart';
 import 'package:applojahouse/src/pages/registro_page.dart';
 import 'package:applojahouse/src/pages/reseteoPassword_page.dart';
 import 'package:applojahouse/src/pages/verVisitaRealizada_page.dart';
 import 'package:applojahouse/src/pages/visita_page.dart';
 import 'package:applojahouse/src/pages/visitas_solicitadas_page.dart';
 import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/providers/push_notifications_provider.dart';
 import 'package:applojahouse/src/singleton/conexion_singleton.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
@@ -27,19 +30,43 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final pushProvider = PushNotificationsProvider();
+    pushProvider.initNotifications();
+
+    pushProvider.mensajes.listen((data) {
+      print('Argumento');
+      print(data);
+      navigatorKey.currentState.pushNamed('recibirnotificacion', arguments: data);
+    });
+    
+  }
   @override
   Widget build(BuildContext context) {
-    final preferencias = new PreferenciasUsuario();
+    
+   // final preferencias = new PreferenciasUsuario();
 
     //print(preferencias.token);
 
-    if(preferencias.token != true){
+  /*  if(preferencias.token != true){
       print(preferencias.token);
     }else{
       preferencias.clear();
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
-    }
+    }*/
     return Provider(
       child: MaterialApp(
         localizationsDelegates: [
@@ -51,6 +78,7 @@ class MyApp extends StatelessWidget {
           const Locale('es', 'ES'),
         ],
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         title: 'Material App',
         initialRoute: 'home',
         routes: {
@@ -66,6 +94,8 @@ class MyApp extends StatelessWidget {
           'visitasrealizadas': (BuildContext context) => VerVisitaRealizadaPage(),
           'listacontratos': (BuildContext context) => ListaContratosPage(),
           'acuerdo': (BuildContext context) => AceptarContratoPage(),
+          //'notification': (BuildContext context) => NotificacionPage(),
+          'recibirnotificacion': (BuildContext context) => RecibirNotificacionPage(),
           
         },
         theme: ThemeData(primaryColor: Colors.blueAccent),

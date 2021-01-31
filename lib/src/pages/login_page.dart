@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   //para verificar si el smartphone tiene internet
   StreamSubscription _connectionChangeStream;
-  bool isOffline = true;
+  bool isOffline = false;
 
   bool visible = true;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -31,12 +31,13 @@ class _LoginPageState extends State<LoginPage> {
         ConnectionStatusSingleton.getInstance();
     _connectionChangeStream =
         connectionStatus.connectionChange.listen(connectionChanged);
+        //print('conecction status: $_connectionChangeStream');
   }
 
   void connectionChanged(dynamic hasConnection) {
     setState(() {
       isOffline = !hasConnection;
-      print(isOffline);
+      print('conection: $hasConnection');
     });
   }
 

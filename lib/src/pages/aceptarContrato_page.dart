@@ -39,6 +39,8 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
   String pathDelDocumento;
 
   final pdf = pw.Document();
+
+  String cambiarEstado;
   
 
   @override
@@ -84,6 +86,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
       ),
     );
   }
+
 
   _escribirEnPdf(Contrato contrato) {
     pdf.addPage(pw.MultiPage(
@@ -132,7 +135,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
     pathDelDocumento = directorioDelDocumento.path;
 
     File file = File('$pathDelDocumento/${contrato.nombrecontrato}.pdf');
-    file.writeAsBytesSync(pdf.save());
+    file.writeAsBytesSync(await pdf.save());
   }
 
   _usuarioObtenidoArrendador(Contrato contrato) {
@@ -325,7 +328,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
                     color: Colors.blueAccent,
                     textColor: Colors.white,
                     onPressed: () async {
-                      print(contratoModel.acuerdo);
+                      print('Hola: ${contratoModel.acuerdo}');
                       _escribirEnPdf(contratoModel);
                       await _guardarPDF(contratoModel);
                       directorioDelDocumento =
@@ -392,9 +395,10 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
     String aceptarAcuerdo = '';
     if (_blouearCheck == true) {
       aceptarAcuerdo = 'ACEPTADO';
+      cambiarEstado="VIGENTE";
       print(aceptarAcuerdo);
       Map respuesta =
-          await bloc.aceptarContrato(contratoModel.id, aceptarAcuerdo);
+          await bloc.aceptarContrato(contratoModel.id, aceptarAcuerdo, cambiarEstado);
       Navigator.pushReplacementNamed(context, 'listacontratos');
       print(respuesta);
     }

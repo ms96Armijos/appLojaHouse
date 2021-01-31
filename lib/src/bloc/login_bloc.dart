@@ -9,8 +9,6 @@ class LoginBloc with Validators{
 
   final _preferenciasDelUsuario = new PreferenciasUsuario();
 
-
-
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
   final _nuevaPasswordController = BehaviorSubject<String>();

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "401761071814",
-    "project_id": "testlojahouse",
-    "storage_bucket": "testlojahouse.appspot.com"
+    "project_number": "326738722626",
+    "project_id": "notificationstesis",
+    "storage_bucket": "notificationstesis.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:401761071814:android:ce0e52227da641fc779dc7",
+        "mobilesdk_app_id": "1:326738722626:android:59336f4d05e82b798d12db",
         "android_client_info": {
           "package_name": "com.example.applojahouse"
         }
       },
       "oauth_client": [
         {
-          "client_id": "401761071814-pc939duuvaigiqt9b5ivm1g3hi2m09bo.apps.googleusercontent.com",
+          "client_id": "326738722626-a1iike16d0bti81as05u4b616392rl9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.applojahouse",
+            "certificate_hash": "b92019517234f4aa7f7938c12d4c6bd7dfa07632"
+          }
+        },
+        {
+          "client_id": "326738722626-g8en1m0l4hektaeua1hg4nso7bkqb455.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDUc4VOvnml05W4djbbHA-o5bBXzOHq8TI"
+          "current_key": "AIzaSyBKmsZGuMiOXIaALmM3L2yeZk48lRHP7BE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "401761071814-pc939duuvaigiqt9b5ivm1g3hi2m09bo.apps.googleusercontent.com",
+              "client_id": "326738722626-g8en1m0l4hektaeua1hg4nso7bkqb455.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

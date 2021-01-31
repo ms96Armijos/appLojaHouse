@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:applojahouse/src/models/inmueble_model.dart';
 import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
