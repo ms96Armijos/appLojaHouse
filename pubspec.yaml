@@ -37,7 +37,7 @@ dependencies:
   shared_preferences:  
   image_picker: ^0.6.7+14
   intl: ^0.16.1
-  connectivity: ^0.3.2
+  connectivity: ^2.0.2
   flutter_svg: 
   url_launcher:  
   pdf: ^2.0.0
@@ -45,11 +45,12 @@ dependencies:
   flutter_full_pdf_viewer: ^1.0.6
 
   firebase_messaging: ^7.0.3
+  #firebase_core: ^0.7.0
+  #flutter_local_notifications: ^4.0.1+1
   #flutter_crashlytics: ^1.0.0
   #firebase_analytics: ^6.0.0
   #firebase_remote_config: ^0.4.3
   #firebase_auth: ^0.18.0+1
-  #firebase_core: ^0.5.0+1
 
 
 dev_dependencies:

@@ -8,9 +8,9 @@ class ContratoProvider {
   final String _url = 'http://192.168.1.4:3000';
   final preferenciaToken = new PreferenciasUsuario();
 
-  Future<ContratoModel> obtenerContratos() async {
+  Future<ContratoModel> obtenerContratos(int cantidad) async {
     final url =
-        '$_url/contrato/arrendatario/obtenercontratos/0?token=${preferenciaToken.token}';
+        '$_url/contrato/arrendatario/obtenercontratos/$cantidad?token=${preferenciaToken.token}';
 
     final resp = await http.get(
       url,
@@ -22,29 +22,9 @@ class ContratoProvider {
       return contratoModelFromJson(resp.body);
     } else {
       final body = contratoModelFromJson(resp.body);
+      //print('Total: ${body.total}');
       return body;
     }
-
-    //print(body);
-    //return body;
-  }
-
-  Future<bool> verificartoken() async {
-    final url =
-        '$_url/contrato/arrendatario/obtenercontratos/0?token=${preferenciaToken.token}';
-    bool result;
-    final resp = await http.get(
-      url,
-      headers: {"Content-type": "application/json"},
-    );
-
-    //Si el código es de acceso no autorizado, retorna null
-    if (resp.statusCode == 401) {
-      result = true;
-    } else {
-      result = false;
-    }
-    return result;
 
     //print(body);
     //return body;

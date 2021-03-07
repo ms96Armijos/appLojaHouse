@@ -44,18 +44,43 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
   
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    contratoBloc.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final contratoObtenido = ModalRoute.of(context).settings.arguments;
+    print(contratoObtenido);
     contratoBloc = Provider.contratoBloc(context);
 
     usuarioBloc = Provider.perfilBloc(context);
 
-    if (contratoObtenido != null) {
+
+    for (var item in contratoObtenido) {
+      print(item['tiempocontrato']);
+      contratoModel = Contrato(
+        acuerdo: item['acuerdo'],
+        id: item['_id'],
+        nombrecontrato: item["nombrecontrato"],
+        fechainicio: DateTime.parse(item["fechainicio"]),
+        fechafin: DateTime.parse(item["fechafin"]),
+        tiempocontrato: item["tiempocontrato"],
+        monto: item["monto"],
+        usuarioarrendador: Usuarioarrenda.fromJson(item["usuarioarrendador"]),
+        usuarioarrendatario: Usuarioarrenda.fromJson(item["usuarioarrendatario"]),
+        inmueble: InmuebleContrato.fromJson(item["inmueble"]),
+        );
+    }
+
+    /*if (contratoObtenido != null) {
       contratoModel = contratoObtenido;
       print('bien');
     } else {
       print('nulo');
-    }
+    }*/
 
     return Scaffold(
       appBar: AppBar(
@@ -376,7 +401,33 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
         color: Colors.blueAccent,
         onPressed: (_blouearCheck != false)
             ? () {
-                _aceptarAcuerdo(context, bloc);
+              showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Aceptar Contrato'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                      Text('Si ha leido el contrato y está de acuerdo, por favor seleccione Aceptar')
+                    ],
+                    ),
+                    actions: [
+                      FlatButton(
+                        child: Text('Cancelar'),
+                        onPressed: ()=> Navigator.of(context).pop(),
+                        ),
+                      FlatButton(
+                        child: Text('Aceptar'),
+                        onPressed: (){_aceptarAcuerdo(context, bloc);},
+                        ),
+                    ],
+                  );
+                }
+              );
+
+                
               }
             : null,
         elevation: 4.0,

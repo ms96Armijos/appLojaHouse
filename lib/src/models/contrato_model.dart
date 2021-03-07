@@ -44,8 +44,6 @@ class Contrato {
         this.usuarioarrendador,
         this.usuarioarrendatario,
         this.inmueble,
-        this.createdAt,
-        this.updatedAt,
     });
 
     String acuerdo;
@@ -58,8 +56,6 @@ class Contrato {
     Usuarioarrenda usuarioarrendador;
     Usuarioarrenda usuarioarrendatario;
     InmuebleContrato inmueble;
-    DateTime createdAt;
-    DateTime updatedAt;
 
     factory Contrato.fromJson(Map<String, dynamic> json) => Contrato(
         acuerdo: json["acuerdo"],
@@ -72,8 +68,6 @@ class Contrato {
         usuarioarrendador: Usuarioarrenda.fromJson(json["usuarioarrendador"]),
         usuarioarrendatario: Usuarioarrenda.fromJson(json["usuarioarrendatario"]),
         inmueble: InmuebleContrato.fromJson(json["inmueble"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -87,8 +81,6 @@ class Contrato {
         "usuarioarrendador": usuarioarrendador.toJson(),
         "usuarioarrendatario": usuarioarrendatario.toJson(),
         "inmueble": inmueble.toJson(),
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
     };
 }
 

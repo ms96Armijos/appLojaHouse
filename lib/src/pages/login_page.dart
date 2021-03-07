@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   void connectionChanged(dynamic hasConnection) {
     setState(() {
       isOffline = !hasConnection;
-      print('conection: $hasConnection');
+      //print('conection: $hasConnection');
     });
   }
 
@@ -248,6 +248,9 @@ class _LoginPageState extends State<LoginPage> {
     if (usuarioArrendatario['usuario'] == 'ARRENDATARIO') {
       Map respuesta = await bloc.loguearUsuario(correo, password);
       if (respuesta['ok']) {
+            //TODO: Corregir esto del token
+         await bloc.editarTokenFCMDelUsuario();
+        //_preferenciasDelUsuario.tokenFCM
         Navigator.pushReplacementNamed(context, 'home');
       } else {
         mostrarAlerta(context, respuesta['mensaje']);

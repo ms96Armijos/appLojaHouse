@@ -72,6 +72,13 @@ class LoginBloc with Validators{
       return data;
   }
 
+    //TODO: Corregir esto del token
+    Future<bool> editarTokenFCMDelUsuario() async {
+    final respuesta =
+        await _loginUsuarioProvider.editarTokenFCMDelUsuario();
+    return respuesta;
+  }
+
   dispose(){
     _emailController?.close();
     _passwordController?.close();

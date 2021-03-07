@@ -32,6 +32,14 @@ class PreferenciasUsuario {
     _prefs.setString('idUsuario', value);
   }
 
+  get tokenFCM {
+    return _prefs.getString('tokenFCM') ?? '';
+  }
+
+  set tokenFCM(String value) {
+    _prefs.setString('tokenFCM', value);
+  }
+
   Future clear() async {
     await _prefs.clear();
   }

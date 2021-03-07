@@ -3,6 +3,7 @@ import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/pages/aceptarContrato_page.dart';
 import 'package:applojahouse/src/pages/cambiarPassword_page.dart';
 import 'package:applojahouse/src/pages/home_page.dart';
+import 'package:applojahouse/src/pages/listaContratosArrendatario_page%20copy.dart';
 import 'package:applojahouse/src/pages/listaContratosArrendatario_page.dart';
 import 'package:applojahouse/src/pages/login_page.dart';
 import 'package:applojahouse/src/pages/perfil_page.dart';
@@ -57,9 +58,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     
-   // final preferencias = new PreferenciasUsuario();
+    //final preferencias = new PreferenciasUsuario();
 
-    //print(preferencias.token);
+    //print("FCM: ${preferencias.tokenFCM}");
 
   /*  if(preferencias.token != true){
       print(preferencias.token);
@@ -92,7 +93,7 @@ class _MyAppState extends State<MyApp> {
           'cambiopassword': (BuildContext context) => CambiarPasswordPage(),
           'visitas': (BuildContext context) => VisitasSolicitadasPage(),
           'visitasrealizadas': (BuildContext context) => VerVisitaRealizadaPage(),
-          'listacontratos': (BuildContext context) => ListaContratosPage(),
+          'listacontratos': (BuildContext context) => ListaContratosArrPage(),
           'acuerdo': (BuildContext context) => AceptarContratoPage(),
           //'notification': (BuildContext context) => NotificacionPage(),
           'recibirnotificacion': (BuildContext context) => RecibirNotificacionPage(),

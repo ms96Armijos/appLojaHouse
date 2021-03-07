@@ -2,7 +2,7 @@ import 'package:applojahouse/src/bloc/inmueble_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/models/inmueble_model.dart';
 import 'package:applojahouse/src/pages/login_page.dart';
-import 'package:applojahouse/src/providers/contrato_provider.dart';
+import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:applojahouse/src/widgets/menu_widget.dart';
 import 'package:applojahouse/src/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,10 @@ class _HomePageState extends State<HomePage> {
   final estiloTitulo = TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
 
   final estiloSubTitulo = TextStyle(fontSize: 13.0, color: Colors.grey);
-  final contra = ContratoProvider();
+  final usuarioProvider = UsuarioProvider();
 
-  Future<void> prueba() async{
-    bool verify = await contra.verificartoken();
+  Future<void> verificarToken() async{
+    bool verify = await usuarioProvider.verificarToken();
     if(verify){
      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
     }else{
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    prueba();
+    verificarToken();
   }
 
   @override

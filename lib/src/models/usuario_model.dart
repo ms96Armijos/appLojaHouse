@@ -22,6 +22,7 @@ class UsuarioModel {
     this.convencional,
     this.estado='1',
     this.rol='ARRENDATARIO',
+    this.tokenfirebase
   });
 
   String id;
@@ -35,6 +36,7 @@ class UsuarioModel {
   String convencional;
   String estado;
   String rol;
+  String tokenfirebase;
 
   factory UsuarioModel.fromJson(Map<String, dynamic> json) => UsuarioModel(
         id: json["_id"],
@@ -48,6 +50,7 @@ class UsuarioModel {
         convencional: json["convencional"],
         estado: json["estado"],
         rol: json["rol"],
+        tokenfirebase: json["tokenfirebase"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,5 +65,6 @@ class UsuarioModel {
         "convencional": convencional,
         "estado": estado,
         "rol": rol,
+        "tokenfirebase": tokenfirebase,
       };
 }

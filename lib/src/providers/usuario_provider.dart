@@ -62,6 +62,21 @@ class UsuarioProvider {
     return true;
   }
 
+
+  Future<bool> editarTokenFCMDelUsuario() async{
+    //TODO: Corregir esto del token
+    final authData = {'tokenfirebase': "${preferencias.tokenFCM}"};
+    print(preferencias.tokenFCM);
+    final url = '$_url/usuario/actualizartoken/usuario/${preferencias.idUsuario}?token=${preferencias.token}';
+    final respuesta = await http.put(url, 
+    headers: {"Content-type": "application/json"}, 
+    body: json.encode(authData));
+
+    final body = json.decode(respuesta.body);
+    print(body);
+    return true;
+  }
+
   Future<Map<String, dynamic>> login(String correo, String password) async {
     final authData = {'correo': correo, 'password': password};
 
@@ -108,5 +123,25 @@ class UsuarioProvider {
     final resp = await http.get( url, headers: {"Content-type": "application/json"},);
     final body = json.decode(resp.body);
     return body;
+  }
+
+    Future<bool> verificarToken() async {
+    final url = '$_url/usuario/obtenerusuario/' + preferencias.idUsuario +'?token='+ preferencias.token;
+    bool result;
+    final resp = await http.get(
+      url,
+      headers: {"Content-type": "application/json"},
+    );
+
+    //Si el código es de acceso no autorizado, retorna true
+    if (resp.statusCode == 401) {
+      result = true;
+    } else {
+      result = false;
+    }
+    return result;
+
+    //print(body);
+    //return body;
   }
 }

@@ -13,9 +13,12 @@ class ContratoBloc {
   Stream<ContratoModel> get contratosStream => _contratoController.stream;
 
 
-  void obtenerContratos() async{
-    final contratos = await _contratoProvider.obtenerContratos();
-    _contratoController.sink.add(contratos);
+  void obtenerContratos(int cantidad) async{
+    final contratos = await _contratoProvider.obtenerContratos(cantidad);
+    print("Obntenidos: ${contratos.total}");
+   if(!_contratoController.isClosed){
+      _contratoController.sink.add(contratos);
+   }
   }
 
    Future<ContratoModel> obtenerContratoEspecifico(String id) async {
