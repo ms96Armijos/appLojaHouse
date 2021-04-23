@@ -9,6 +9,8 @@ class VisitaBloc {
   final _getVisitasController = new BehaviorSubject<GetvisitaModel>();
   final _cargandoDatosController = new BehaviorSubject<bool>();
 
+  //final _visitasContadorController = new BehaviorSubject<int>();
+
 
   final _visitaProvider = new VisitaProvider();
 
@@ -17,12 +19,19 @@ class VisitaBloc {
   Stream<GetvisitaModel> get getvisitasStream => _getVisitasController.stream;
   Stream<bool> get cargando => _cargandoDatosController.stream;
 
+  //Stream<int> get visitasContador => _visitasContadorController.stream;
+
 
   void cargarVisitas() async{
     final visitas = await _visitaProvider.obtenerVisitas();
     //print(visitas);
     _getVisitasController.sink.add(visitas);
   }
+
+  /*void contarVisitas() async{
+    final visitas = await _visitaProvider.obtenerVisitas();
+    _visitasContadorController.sink.add(visitas.total);
+  }*/
 
 
   void crearVisita(VisitaModel visita) async{
@@ -31,9 +40,17 @@ class VisitaBloc {
     _cargandoDatosController.sink.add(false);
   }
 
+   Future<Map<String, dynamic>> eliminarVisita(String id, String estado) async {
+    final respuesta = await _visitaProvider.eliminarVisita(id, estado);
+    return respuesta;
+  }
+
+
+
   dispose(){
     _visitasController?.close();
     _cargandoDatosController?.close();
     _getVisitasController?.close();
+    //_visitasContadorController?.close();
   }
 }

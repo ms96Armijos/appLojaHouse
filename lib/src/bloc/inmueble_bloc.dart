@@ -10,8 +10,8 @@ class InmuebleBloc {
   Stream<InmuebleModel> get inmueblesStream => _inmuebleController.stream;
 
   void cargarInmuebles() async {
-    final inmuebles = await _inmuebleProvider.obtenerInmuebles();
-    _inmuebleController.sink.add(inmuebles);
+      final inmuebles = await _inmuebleProvider.obtenerInmuebles();
+        _inmuebleController.sink.add(inmuebles);
   }
 
   dispose() {

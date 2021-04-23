@@ -89,27 +89,67 @@ class _PerfilPageState extends State<PerfilPage> {
                         SizedBox(
                           height: 15.0,
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            _crearBotonCancelar(),
+                            _crearBoton(perfilBloc),
+                          ],
+                        )
                       ],
                     );
                   } else {
                     print("no hay datos ");
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Container(
+                          color: Colors.transparent,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 30.0,
+                                ),
+                                Text(
+                                  "¡Lo siento!",
+                                  style: TextStyle(
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.redAccent),
+                                ),
+                                SizedBox(
+                                  height: 15.0,
+                                ),
+                                FadeInImage(
+                                  placeholder:
+                                      AssetImage('assets/img/sorry.jpg'),
+                                  image: AssetImage('assets/img/sorry.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                                SizedBox(
+                                  height: 15.0,
+                                ),
+                                Text("No hay información del perfil",
+                                    style: TextStyle(
+                                        fontSize: 19.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.redAccent)),
+                                SizedBox(
+                                  height: 30.0,
+                                ),
+                                //_crearBotonCancelar(),
+                                SizedBox(
+                                  height: 30.0,
+                                ),
+                              ],
+                            ),
+                          )),
                     );
-                    
                   }
                 },
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _crearBotonCancelar(),
-                  _crearBoton(perfilBloc),
-                ],
-              )
             ],
           ),
         ));
@@ -167,9 +207,10 @@ class _PerfilPageState extends State<PerfilPage> {
             onPressed: _imageFile != null
                 ? () async {
                     final _debouncer = Debouncer(milliseconds: 2000);
-                    setState(() {
-                      circularProgress = true;
-                    });
+                    if (mounted)
+                      setState(() {
+                        circularProgress = true;
+                      });
 
                     if (_imageFile.path != null) {
                       var imagenResponse =
@@ -179,10 +220,11 @@ class _PerfilPageState extends State<PerfilPage> {
                           Navigator.pushReplacementNamed(context, 'perfil'));
 
                       if (imagenResponse.statusCode == 200) {
-                        setState(() {
-                          circularProgress = false;
-                          _imageFile = null;
-                        });
+                        if (mounted)
+                          setState(() {
+                            circularProgress = false;
+                            _imageFile = null;
+                          });
                         //Navigator.pushReplacementNamed(context, 'perfil');
 
                         /* Navigator.of(context).pushAndRemoveUntil(
@@ -190,9 +232,10 @@ class _PerfilPageState extends State<PerfilPage> {
                           (route) => false);*/
                       }
                     } else {
-                      setState(() {
-                        circularProgress = false;
-                      });
+                      if (mounted)
+                        setState(() {
+                          circularProgress = false;
+                        });
                       //Navigator.pushReplacementNamed(context, 'perfil');
 
                       /*Navigator.of(context).pushAndRemoveUntil(
@@ -318,11 +361,11 @@ class _PerfilPageState extends State<PerfilPage> {
     final pickedFile = await _picker.getImage(
       source: source,
     );
-
-    setState(() {
-      _imageFile = pickedFile;
-      _crearBotonActualizarFoto();
-    });
+    if (mounted)
+      setState(() {
+        _imageFile = pickedFile;
+        _crearBotonActualizarFoto();
+      });
   }
 
   _crearNombre(PerfilBloc bloc) {

@@ -1,20 +1,18 @@
-import 'package:applojahouse/src/Notificaciones/notificaciones_page.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/pages/aceptarContrato_page.dart';
 import 'package:applojahouse/src/pages/cambiarPassword_page.dart';
+import 'package:applojahouse/src/pages/enviarMensajePage.dart';
+import 'package:applojahouse/src/pages/filtroInmueblePage.dart';
 import 'package:applojahouse/src/pages/home_page.dart';
 import 'package:applojahouse/src/pages/listaContratosArrendatario_page%20copy.dart';
-import 'package:applojahouse/src/pages/listaContratosArrendatario_page.dart';
 import 'package:applojahouse/src/pages/login_page.dart';
 import 'package:applojahouse/src/pages/perfil_page.dart';
-import 'package:applojahouse/src/pages/recibirNotificacion_page.dart';
 import 'package:applojahouse/src/pages/registro_page.dart';
 import 'package:applojahouse/src/pages/reseteoPassword_page.dart';
 import 'package:applojahouse/src/pages/verVisitaRealizada_page.dart';
 import 'package:applojahouse/src/pages/visita_page.dart';
-import 'package:applojahouse/src/pages/visitas_solicitadas_page.dart';
+import 'package:applojahouse/src/pages/visitas_solicitadas_page%20copy.dart';
 import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
-import 'package:applojahouse/src/providers/push_notifications_provider.dart';
 import 'package:applojahouse/src/singleton/conexion_singleton.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
@@ -39,20 +37,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    final pushProvider = PushNotificationsProvider();
+    /*final pushProvider = PushNotificationsProvider();
     pushProvider.initNotifications();
 
     pushProvider.mensajes.listen((data) {
       print('Argumento');
       print(data);
       navigatorKey.currentState.pushNamed('recibirnotificacion', arguments: data);
-    });
+    });*/
     
   }
   @override
@@ -79,7 +77,7 @@ class _MyAppState extends State<MyApp> {
           const Locale('es', 'ES'),
         ],
         debugShowCheckedModeBanner: false,
-        navigatorKey: navigatorKey,
+        //navigatorKey: navigatorKey,
         title: 'Material App',
         initialRoute: 'home',
         routes: {
@@ -91,13 +89,14 @@ class _MyAppState extends State<MyApp> {
           'perfil': (BuildContext context) => PerfilPage(),
           'reseteopassword': (BuildContext context) => ReseteoPasswordPage(),
           'cambiopassword': (BuildContext context) => CambiarPasswordPage(),
-          'visitas': (BuildContext context) => VisitasSolicitadasPage(),
+          'visitas': (BuildContext context) => VisitasSolicitadasArrPage(),
           'visitasrealizadas': (BuildContext context) => VerVisitaRealizadaPage(),
           'listacontratos': (BuildContext context) => ListaContratosArrPage(),
           'acuerdo': (BuildContext context) => AceptarContratoPage(),
+          'mensaje': (BuildContext context) => MensajePage(),
+          'filtroinmueble': (BuildContext context) => FiltroInmueblePage(),
           //'notification': (BuildContext context) => NotificacionPage(),
-          'recibirnotificacion': (BuildContext context) => RecibirNotificacionPage(),
-          
+          //'recibirnotificacion': (BuildContext context) => RecibirNotificacionPage(),
         },
         theme: ThemeData(primaryColor: Colors.blueAccent),
       ),

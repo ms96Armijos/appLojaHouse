@@ -16,6 +16,12 @@ class _RegistroPageState extends State<RegistroPage> {
   RegistroBloc bloc;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    bloc = new RegistroBloc();
+  }
+  @override
   void dispose() {
     // TODO: implement dispose
     bloc.dispose();
@@ -23,7 +29,7 @@ class _RegistroPageState extends State<RegistroPage> {
   }
   @override
   Widget build(BuildContext context) {
-    bloc = new RegistroBloc();
+    
     return Scaffold(
       body: Stack(
         children: [
@@ -111,6 +117,7 @@ class _RegistroPageState extends State<RegistroPage> {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(
                 icon: Icon(
                   Icons.person,
@@ -230,12 +237,12 @@ class _RegistroPageState extends State<RegistroPage> {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
           (Route<dynamic> route) => false);
-      bloc.dispose();
+      //bloc.dispose();
 
       //Navigator.pushReplacementNamed(context, 'login');
     } else {
       mostrarAlerta(context, respuesta['mensaje']);
-      bloc.dispose();
+      //bloc.dispose();
     }
   }
 

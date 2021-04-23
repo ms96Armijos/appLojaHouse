@@ -10,7 +10,7 @@ class BannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
           child: Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: Column(
               children: [
                 SvgPicture.asset('assets/icons/casa.svg', width: 110, height: 110,),
@@ -19,7 +19,7 @@ class BannerWidget extends StatelessWidget {
                   width: double.infinity,
                 ),
                 Text(valor,
-                    style: TextStyle(color: Colors.white, fontSize: 25.0))
+                    style: TextStyle(color: Colors.white60, fontSize: 30.0, fontWeight: FontWeight.bold))
               ],
             ),
           ),

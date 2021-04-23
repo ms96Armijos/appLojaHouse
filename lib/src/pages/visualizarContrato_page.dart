@@ -10,8 +10,7 @@ class VisualizarContratoPDFPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    print(path.toString());
+    //print(path.toString());
     return PDFViewerScaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,

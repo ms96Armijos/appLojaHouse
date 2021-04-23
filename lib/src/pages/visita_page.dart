@@ -390,6 +390,7 @@ class _VisitaPageState extends State<VisitaPage> {
     if (!formKey.currentState.validate()) return;
 
     formKey.currentState.save();
+    if(mounted)
     setState(() {
       guardando = true;
     });
@@ -442,12 +443,14 @@ class _VisitaPageState extends State<VisitaPage> {
 
     if (picked != null) {
       String fechaFormateada = DateFormat('dd-MM-yyyy').format(picked);
+      if(mounted)
       setState(() {
         _fecha = fechaFormateada;
         _fechaController.text = _fecha;
         visitaModel.fecha = picked;
       });
     } else {
+      if(mounted)
       setState(() {
         _fechaController.text = _fechaActual(tiempo);
       });

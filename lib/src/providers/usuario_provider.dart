@@ -63,9 +63,9 @@ class UsuarioProvider {
   }
 
 
-  Future<bool> editarTokenFCMDelUsuario() async{
+  Future<bool> editarTokenFCMDelUsuario(firebaseToken) async{
     //TODO: Corregir esto del token
-    final authData = {'tokenfirebase': "${preferencias.tokenFCM}"};
+    final authData = {'tokenfirebase': firebaseToken};
     print(preferencias.tokenFCM);
     final url = '$_url/usuario/actualizartoken/usuario/${preferencias.idUsuario}?token=${preferencias.token}';
     final respuesta = await http.put(url, 

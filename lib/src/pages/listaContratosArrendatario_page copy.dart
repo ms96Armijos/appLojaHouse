@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:applojahouse/src/models/contrato_model.dart';
 import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
-import 'package:applojahouse/src/singleton/conexion_singleton.dart';
 import 'package:applojahouse/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ListaContratosArrPage extends StatefulWidget {
   @override
@@ -19,37 +16,19 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
 
   final estiloSubTitulo = TextStyle(fontSize: 13.0, color: Colors.grey);
 
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController;
   final preferenciaToken = new PreferenciasUsuario();
 
   List<dynamic> listadoDeContratos = [];
-  int _ultimoDato;
   int _total = 0;
-  bool estaCargando = false;
-
-
-    //para verificar si el smartphone tiene internet
-  StreamSubscription _connectionChangeStream;
-  bool isOffline = false;
-  ConnectionStatusSingleton connectionStatus =
-        ConnectionStatusSingleton.getInstance();
-        
-
- void connectionChanged(dynamic hasConnection) {
-    setState(() {
-      isOffline = !hasConnection;
-      print('conection: $hasConnection');
-    });
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    
-    _connectionChangeStream =
-        connectionStatus.connectionChange.listen(connectionChanged);
+  
+  _scrollController  = new ScrollController();
     //agregar6(_ultimoDato);
     obtener6();
 
@@ -65,8 +44,7 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _scrollController.dispose();
-    connectionStatus.dispose();
+    _scrollController?.dispose();
     print('Dispose...');
   }
 
@@ -77,105 +55,68 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
           title: Text('Contratos del arrendatario'),
         ),
         drawer: MenuWidget(),
-        body: (!isOffline)?(listadoDeContratos.length >= 0)? 
-                ListView.builder(
-                controller: _scrollController,
-                itemCount: listadoDeContratos.length,
-                itemBuilder: (context, index) {
-                  return _crearItemContrato(context, listadoDeContratos, index);
-                  //print(inn.servicio);
-                })
+        body: (listadoDeContratos.length > 0)
+            ? RefreshIndicator(
+              onRefresh: obtenerPrimerosRegistros,
+                child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: listadoDeContratos.length,
+                    itemBuilder: (context, index) {
+                      return _crearItemContrato(
+                          context, listadoDeContratos, index);
+                      //print(inn.servicio);
+                    }),
+              )
             : Center(
-              child: Container(
-                  color: Colors.transparent,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        Text(
-                          "¡Lo siento!",
-                          style: TextStyle(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent),
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        FadeInImage(
-                          placeholder: AssetImage('assets/img/sorry.jpg'),
-                          image: AssetImage('assets/img/sorry.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Text("No tienes Contratos generados",
+                child: Container(
+                    color: Colors.transparent,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          Text(
+                            "¡Lo siento!",
                             style: TextStyle(
-                              fontSize: 19.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent
-                            )),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        _crearBotonCancelar(),
-                         SizedBox(
-                          height: 30.0,
-                        ),
-                      ],
-                    ),
-                  )),
-            ):Container(
-                  color: Colors.transparent,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        Text(
-                          "¡Lo siento!",
-                          style: TextStyle(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent),
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        FadeInImage(
-                          placeholder: AssetImage('assets/img/notfound.jpg'),
-                          image: AssetImage('assets/img/notfound.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Text("No tienes Conexión a Internet",
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent
-                            )),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        _crearBotonCancelar(),
-                         SizedBox(
-                          height: 30.0,
-                        ),
-                      ],
-                    ),
-                  )));
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.redAccent),
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          FadeInImage(
+                            placeholder: AssetImage('assets/img/sorry.jpg'),
+                            image: AssetImage('assets/img/sorry.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          Text("No tienes Contratos generados",
+                              style: TextStyle(
+                                  fontSize: 19.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.redAccent)),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          _crearBotonCancelar(context),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                        ],
+                      ),
+                    )),
+              ));
   }
 
-    _crearBotonCancelar() {
+  _crearBotonCancelar(BuildContext context) {
     return RaisedButton(
       color: Colors.blueAccent,
       onPressed: () {
+        //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
         //Navigator.pop(context);
         Navigator.pushReplacementNamed(context, 'home');
       },
@@ -214,8 +155,11 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
           children: [
             Expanded(
               child: InkWell(
-                onTap: () => Navigator.pushNamed(context, 'acuerdo',
-                    arguments: {listadoDeContratos[index][index]}),
+                onTap: () {
+                  //Navigator.pop(context);
+                  Navigator.pushNamed(context, 'acuerdo',
+                    arguments: {listadoDeContratos[index][index]});
+                },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -240,26 +184,16 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
                     ),
                     Text(listadoDeContratos[index][index]['tiempocontrato']
                         .toString()),
-                    /*Text(
-                      'Inicio del contrato',
-                      style: estiloSubTitulo,
-                    ),
-                    _fecha(context, contrato.fechainicio),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      'Fin del contrato',
-                      style: estiloSubTitulo,
-                    ),
-                    _fecha(context, contrato.fechafin),*/
                   ],
                 ),
               ),
             ),
             InkWell(
-              onTap: () => Navigator.pushNamed(context, 'acuerdo',
-                  arguments: {listadoDeContratos[index][index]}),
+              onTap: () {
+                //Navigator.pop(context);
+                Navigator.pushNamed(context, 'acuerdo',
+                  arguments: {listadoDeContratos[index][index]});
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -302,6 +236,7 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
     );
     if (response.statusCode == 200) {
       _total = json.decode(response.body)['total'];
+      if(mounted)
       setState(() {
         if (listadoDeContratos.length < _total) {
           listadoDeContratos.add(json.decode(response.body)['contratos']);
@@ -310,21 +245,31 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
         }
       });
     } else {
-      throw Exception('Error al cargar contratos');
+      return false;
     }
-    print(listadoDeContratos.length);
+    //print(listadoDeContratos.length);
   }
 
   obtener6() {
-   
     for (var i = 0; i < 6; i++) {
       if (listadoDeContratos.length <= _total) {
         print('listado: ${listadoDeContratos.length}');
         print('total: $_total');
         fetchData();
-      }else{
+      } else {
         return;
       }
-     }
+    }
+  }
+
+  Future<Null> obtenerPrimerosRegistros() async {
+    final duration = new Duration(seconds: 2);
+    new Timer(duration, () {
+      listadoDeContratos.clear();
+      _total = 0;
+      obtener6();
+    });
+
+    return Future.delayed(duration);
   }
 }

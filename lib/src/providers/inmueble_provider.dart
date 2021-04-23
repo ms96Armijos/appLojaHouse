@@ -15,10 +15,16 @@ class InmuebleProvider {
       headers: {"Content-type": "application/json"},
     );
 
+    
+
+    if(resp.statusCode == 200){
     final body = inmuebleModelFromJson(resp.body);
+      return body;
+    }else{
+      return throw Exception('Error al cargar inmuebles');
+    }
     //print(body.inmuebles.map((e) => e.imagen));
     //body.inmuebles.forEach((element) {print(element.imagen);});
-    return body;
   }
 
   Future<int> borrarInmueble(String id) async {

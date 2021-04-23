@@ -44,23 +44,27 @@ class VisitaProvider {
     return true;
   }
 
-  Future<bool> editarVisita(VisitaModel visita) async {
-    final url = '$_url/visita/actualizarvisita/${visita.id}/?token=';
+  Future<Map<String, dynamic>> eliminarVisita(
+      String id, String estado) async {
+    final authData = {'estado': estado};
+
+    final url = '$_url/visita/eliminarvisita/$id?token=${preferenciaToken.token}';
+
     final resp = await http.put(url,
         headers: {"Content-type": "application/json"},
-        body: json.encode(visita));
+        body: json.encode(authData));
+        
+    print(resp.body);
     final decodeData = json.decode(resp.body);
 
-    print(decodeData);
-
-    return true;
+    return decodeData;
   }
 
-  Future<int> borrarVisita(String id) async {
-    final url = '$_url/visita/eliminarvisita/$id?token=';
+ /* Future<int> borrarVisita(String id) async {
+    final url = '$_url/visita/eliminarvisita/$id?token=${preferenciaToken.token}';
     final resp = await http.delete(url);
     print(resp.body);
 
     return 1;
-  }
+  }*/
 }

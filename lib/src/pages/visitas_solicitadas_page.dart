@@ -24,14 +24,14 @@ class VisitasSolicitadasPage extends StatelessWidget {
         drawer: MenuWidget(),
         body: Container(
           child: Card(
-            child: _crearListadoInmuebles(visitaBloc),
+            child: _crearListadoVisitas(visitaBloc),
           ),
         ));
   }
 
-  _crearListadoInmuebles(VisitaBloc inmuebleBloc) {
+  _crearListadoVisitas(VisitaBloc visitaBloc) {
     return StreamBuilder(
-      stream: inmuebleBloc.getvisitasStream,
+      stream: visitaBloc.getvisitasStream,
       builder: (BuildContext context, AsyncSnapshot<GetvisitaModel> snapshot) {
         if (snapshot.hasData) {
           final visitas = snapshot.data.visitas;
@@ -45,7 +45,8 @@ class VisitasSolicitadasPage extends StatelessWidget {
                 return SingleChildScrollView(
                   child: Container(
                     child: Column(
-                      children: [_crearItemVisita(context, visits)],
+                      children: [_crearItemVisita(context, visits, visitaBloc)],
+                      
                     ),
                   ),
                 );
@@ -62,7 +63,7 @@ class VisitasSolicitadasPage extends StatelessWidget {
     );
   }
 
-  _crearItemVisita(BuildContext context, Visita visita) {
+  _crearItemVisita(BuildContext context, Visita visita, VisitaBloc visitaBloc) {
     return Container(
       child: Card(
         elevation: 2.0,
@@ -70,93 +71,160 @@ class VisitasSolicitadasPage extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Column(
           children: [
-            _crearTitulo(context, visita),
-            SizedBox(
-              height: 25.0,
-            )
+            _crearTitulo(context, visita, visitaBloc),
           ],
         ),
       ),
     );
   }
 
-  _crearTitulo(BuildContext context, Visita visita) {
+  _crearTitulo(BuildContext context, Visita visita, VisitaBloc visitaBloc) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              child: InkWell(
-                onTap: () =>
-                    Navigator.pushNamed(context, 'visitasrealizadas', arguments: visita),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Solicitud realizada al inmueble:',
-                      style: estiloSubTitulo,
+            
+            Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () =>
+                        Navigator.pushNamed(context, 'visitasrealizadas', arguments: visita),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Solicitud realizada al inmueble:',
+                          style: estiloSubTitulo,
+                        ),
+                        Text(
+                          visita.inmueble.nombre.toString(),
+                          style: estiloTitulo,
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Text(
+                          'Estado de la solicitud',
+                          style: estiloSubTitulo,
+                        ),
+                        Text(
+                          visita.estado.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Text(
+                          'Fecha de visita',
+                          style: estiloSubTitulo,
+                        ),
+                        _fecha(context, visita),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                      ],
                     ),
-                    Text(
-                      visita.inmueble.nombre.toString(),
-                      style: estiloTitulo,
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Text(
-                      'Estado de la solicitud',
-                      style: estiloSubTitulo,
-                    ),
-                    Text(
-                      visita.estado.toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.0,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Text(
-                      'Fecha de visita',
-                      style: estiloSubTitulo,
-                    ),
-                    _fecha(context, visita),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            InkWell(
-              onTap: () =>
-                  Navigator.pushNamed(context, 'visitasrealizadas', arguments: visita),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.arrow_forward,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Row(
+                InkWell(
+                  onTap: () =>
+                      Navigator.pushNamed(context, 'visitasrealizadas', arguments: visita),
+                  child: Column(
                     children: [
-                      Text(
-                        'Ver más',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Icon(
+                        Icons.arrow_forward,
                       ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Ver más',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            )
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+                        height: 10.0,
+                      ),
+            _crearBotonEliminar(visita, visitaBloc)
           ],
         ),
       ),
     );
   }
+
+    _crearBotonEliminar(Visita visita, VisitaBloc visitaBloc) {
+    return StreamBuilder(
+      //stream: visitaBloc.formValidStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return RaisedButton(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+            child: Text('Eliminar visita'.toUpperCase()),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          elevation: 5.0,
+          color: Colors.redAccent,
+          textColor: Colors.white,
+          onPressed:  visita.estado=='PENDIENTE' || visita.estado=='RECHAZADA'
+              ? () {
+                 showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Eliminar Visita'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                      Text('¿Desea eliminar la siguiente solicitud de visita?')
+                    ],
+                    ),
+                    actions: [
+                      FlatButton(
+                        child: Text('Cancelar'),
+                        onPressed: ()=> Navigator.of(context).pop(),
+                        ),
+                      FlatButton(
+                        child: Text('Aceptar'),
+                        onPressed: (){eliminarVisita(context, visita, visitaBloc);},
+                        ),
+                    ],
+                  );
+                }
+              );
+                }
+              : null,
+              );
+      },
+    );
+  }
+
+
+    eliminarVisita(BuildContext context, Visita visita, VisitaBloc visitaBloc) async {
+          String estadoVisita = '';
+          estadoVisita = 'ELIMINADA';
+
+          //print(visita.estado);
+          Map respuesta =
+              await visitaBloc.eliminarVisita(visita.id, estadoVisita);
+          Navigator.pushReplacementNamed(context, 'visitas');
+          print(respuesta);
+  }
+
 
   _fecha(BuildContext context, Visita visita) {
     String fechaFormateada = DateFormat('dd-MM-yyyy').format(visita.fecha);

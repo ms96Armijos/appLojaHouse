@@ -2,8 +2,9 @@ import 'dart:async';
 
 class Validators {
   final validarEmail =
-    StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = new RegExp(pattern);
 
     if (regExp.hasMatch(email)) {
@@ -11,7 +12,6 @@ class Validators {
     } else {
       sink.addError('Email no es correcto');
     }
-    
   });
 
   final validarPassword = StreamTransformer<String, String>.fromHandlers(
@@ -23,8 +23,8 @@ class Validators {
     }
   });
 
-    final validarCampoDeTextoVacio = StreamTransformer<String, String>.fromHandlers(
-      handleData: (valor, sink) {
+  final validarCampoDeTextoVacio =
+      StreamTransformer<String, String>.fromHandlers(handleData: (valor, sink) {
     if (valor.isNotEmpty) {
       sink.add(valor);
     } else {

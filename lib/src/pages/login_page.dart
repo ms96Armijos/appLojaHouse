@@ -6,6 +6,8 @@ import 'package:applojahouse/src/utils/utils.dart';
 import 'package:applojahouse/src/widgets/banner_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -22,19 +24,46 @@ class _LoginPageState extends State<LoginPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
 
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String firenaseToken;
+
 
   @override
   initState() {
     super.initState();
-
+    
     ConnectionStatusSingleton connectionStatus =
         ConnectionStatusSingleton.getInstance();
     _connectionChangeStream =
         connectionStatus.connectionChange.listen(connectionChanged);
+
+    _firebaseMessaging.getToken().then((value) {
+      print('mi token $value');
+    
+    firenaseToken = value;
+      
+
+  _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async{
+        print('onMessage: $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async{
+        print('onLaunch: $message');
+      },
+      onResume: (Map<String, dynamic> message) async{
+        print('onResume: $message');
+      }
+    );
+
+  
+});
+
+
         //print('conecction status: $_connectionChangeStream');
   }
 
   void connectionChanged(dynamic hasConnection) {
+    if(mounted)
     setState(() {
       isOffline = !hasConnection;
       //print('conection: $hasConnection');
@@ -194,6 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                 suffixIcon: IconButton(
                   icon: Icon(visible ? Icons.visibility_off : Icons.visibility),
                   onPressed: () {
+                    if(mounted)
                     setState(() {
                       visible = !visible;
                     });
@@ -249,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
       Map respuesta = await bloc.loguearUsuario(correo, password);
       if (respuesta['ok']) {
             //TODO: Corregir esto del token
-         await bloc.editarTokenFCMDelUsuario();
+         await bloc.editarTokenFCMDelUsuario(firenaseToken);
         //_preferenciasDelUsuario.tokenFCM
         Navigator.pushReplacementNamed(context, 'home');
       } else {

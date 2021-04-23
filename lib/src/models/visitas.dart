@@ -40,8 +40,7 @@ class Visita {
         this.descripcion,
         this.inmueble,
         this.usuarioarrendatario,
-        this.createdAt,
-        this.updatedAt,
+
     });
 
     String estado;
@@ -50,8 +49,7 @@ class Visita {
     String descripcion;
     Inmueble inmueble;
     Usuarioarrendatario usuarioarrendatario;
-    DateTime createdAt;
-    DateTime updatedAt;
+
 
     factory Visita.fromJson(Map<String, dynamic> json) => Visita(
         estado: json["estado"],
@@ -60,8 +58,7 @@ class Visita {
         descripcion: json["descripcion"],
         inmueble: Inmueble.fromJson(json["inmueble"]),
         usuarioarrendatario: Usuarioarrendatario.fromJson(json["usuarioarrendatario"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+
     );
 
     Map<String, dynamic> toJson() => {
@@ -71,8 +68,7 @@ class Visita {
         "descripcion": descripcion,
         "inmueble": inmueble.toJson(),
         "usuarioarrendatario": usuarioarrendatario.toJson(),
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+
     };
 }
 

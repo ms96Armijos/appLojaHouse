@@ -49,12 +49,27 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
     final visitaObtenida = ModalRoute.of(context).settings.arguments;
     usuarioBloc = Provider.perfilBloc(context);
 
-    if (visitaObtenida != null) {
+    for (var item in visitaObtenida) {
+      print(item['estado']);
+      visitaModel = Visita(
+        estado: item["estado"],
+        id: item["_id"],
+        fecha: DateTime.parse(item["fecha"]),
+        descripcion: item["descripcion"],
+        inmueble: Inmueble.fromJson(item["inmueble"]),
+        usuarioarrendatario: Usuarioarrendatario.fromJson(item["usuarioarrendatario"]),
+        );
+    }
+
+
+
+
+    /*if (visitaObtenida != null) {
       visitaModel = visitaObtenida;
       print('bien');
     } else {
       print('nulo');
-    }
+    }*/
 
     return Scaffold(
       appBar: AppBar(

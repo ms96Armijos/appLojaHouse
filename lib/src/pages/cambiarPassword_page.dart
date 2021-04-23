@@ -27,8 +27,11 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
     loginBloc = new LoginBloc();
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Cambia tu contraseña'),
+      ),
       key: scaffoldKey,
-      drawer: MenuWidget(),
+      //drawer: MenuWidget(),
       body: Stack(
         children: [
           _crearFondo(context),
@@ -96,6 +99,7 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
                 suffixIcon: IconButton(
                   icon: Icon(visible ? Icons.visibility_off : Icons.visibility),
                   onPressed: (){
+                    if(mounted)
                      setState(() {
                     visible = !visible;
                   });
@@ -128,6 +132,7 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
                 suffixIcon: IconButton(
                   icon: Icon(visibleConfirmarPassword ? Icons.visibility_off : Icons.visibility),
                   onPressed: (){
+                    if(mounted)
                      setState(() {
                     visibleConfirmarPassword = !visibleConfirmarPassword;
                   });
@@ -248,7 +253,7 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
           child: circulo,
         ),
         BannerWidget(
-          valor: 'Cambia tu contraseña',
+          valor: 'LojaHouse',
         )
       ],
     );

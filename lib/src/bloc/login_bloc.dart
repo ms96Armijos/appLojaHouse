@@ -4,6 +4,8 @@ import 'package:applojahouse/src/bloc/validators.dart';
 import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
 import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+
 
 class LoginBloc with Validators{
 
@@ -32,6 +34,7 @@ class LoginBloc with Validators{
   Function(String) get changeConfirmPassword => _confirmarPasswordController.sink.add;
 
 
+
   //OBTENER LOS ULTIMOS VALORES INGRESADOS A LOS STREAMS
   String get email => _emailController.value;
   String get password => _passwordController.value;
@@ -44,9 +47,15 @@ class LoginBloc with Validators{
    Future<Map<String, dynamic>> loguearUsuario(String correo, String password) async{
     Map data = await _loginUsuarioProvider.login(correo, password);
 
+
+Map<String, dynamic> decodedToken = JwtDecoder.decode(data['token']);
+  // Now you can use your decoded token
+  //print('Token ${decodedToken['usuario']['_id']}');
+
     if(data.toString().contains('token')){
       _preferenciasDelUsuario.token = data['token'];
-      _preferenciasDelUsuario.idUsuario = data['id'];
+      _preferenciasDelUsuario.idUsuario = decodedToken['usuario']['_id'];
+      //_preferenciasDelUsuario.idUsuario = _preferenciasDelUsuario.tokenFCM;
       return data;
     }else{
       return data;
@@ -73,9 +82,9 @@ class LoginBloc with Validators{
   }
 
     //TODO: Corregir esto del token
-    Future<bool> editarTokenFCMDelUsuario() async {
+    Future<bool> editarTokenFCMDelUsuario(firebaseToken) async {
     final respuesta =
-        await _loginUsuarioProvider.editarTokenFCMDelUsuario();
+        await _loginUsuarioProvider.editarTokenFCMDelUsuario(firebaseToken);
     return respuesta;
   }
 

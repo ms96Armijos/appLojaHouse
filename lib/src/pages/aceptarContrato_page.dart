@@ -41,13 +41,18 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
   final pdf = pw.Document();
 
   String cambiarEstado;
+
+
+  /**PARA DESBLOQUEAR EL BOTÓN LEER CONTRATO*/
+    bool existeArrendador = false;
+    bool existeArrendatario = false;
   
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    contratoBloc.dispose();
+    contratoBloc?.dispose();
   }
 
   @override
@@ -172,8 +177,10 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
           //print(visitaModel.inmueble.usuario);
           if (snapshot.hasData) {
             dataUsuarioArrendador = snapshot.data;
+            existeArrendador = true;
             return Container();
           } else {
+            existeArrendador = false;
             return CircularProgressIndicator();
           }
         });
@@ -187,9 +194,11 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
             AsyncSnapshot<Map<String, dynamic>> snapshot) {
           //print(visitaModel.inmueble.usuario);
           if (snapshot.hasData) {
+            existeArrendatario = true;
             dataUsuarioArrendatario = snapshot.data;
             return Container();
           } else {
+            existeArrendatario = false;
             return CircularProgressIndicator();
           }
         });
@@ -353,6 +362,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
                     color: Colors.blueAccent,
                     textColor: Colors.white,
                     onPressed: () async {
+
                       print('Hola: ${contratoModel.acuerdo}');
                       _escribirEnPdf(contratoModel);
                       await _guardarPDF(contratoModel);
@@ -362,12 +372,11 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
 
                       String fullPath =
                           '$pathDelDocumento/${contratoModel.nombrecontrato}.pdf';
+                      //Navigator.pop(context);
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => VisualizarContratoPDFPage(
-                                    path: fullPath,
-                                  )));
+                        new MaterialPageRoute(
+                        builder: (context) => VisualizarContratoPDFPage(path: fullPath)));
                     },
                   ),
                   SizedBox(
@@ -463,6 +472,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
         value: _blouearCheck,
         onChanged: (contratoModel.acuerdo != 'ACEPTADO')
             ? (value) {
+              if(mounted)
                 setState(() {
                   _blouearCheck = value;
                 });

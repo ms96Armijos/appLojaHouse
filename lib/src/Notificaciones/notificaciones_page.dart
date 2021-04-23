@@ -14,7 +14,6 @@ class _NotificacionPageState extends State<NotificacionPage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final List<Message> messages = [];
 
-  String _homeScreenText;
   @override
   void initState() {
     // TODO: implement initState

@@ -2,6 +2,7 @@ import 'package:applojahouse/src/bloc/inmueble_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/models/inmueble_model.dart';
 import 'package:applojahouse/src/pages/login_page.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
 import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:applojahouse/src/widgets/menu_widget.dart';
 import 'package:applojahouse/src/widgets/search_widget.dart';
@@ -12,12 +13,17 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+  int currentTab = 0;
 
 class _HomePageState extends State<HomePage> {
   final estiloTitulo = TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
 
   final estiloSubTitulo = TextStyle(fontSize: 13.0, color: Colors.grey);
   final usuarioProvider = UsuarioProvider();
+  final preferencias = new PreferenciasUsuario();
+
+    int _currentTab = 1;
+
 
   Future<void> verificarToken() async{
     bool verify = await usuarioProvider.verificarToken();
@@ -51,11 +57,57 @@ class _HomePageState extends State<HomePage> {
                 delegate: DataSearch()
                 );
             }
-            )
+            ),
         ],
       ),
       drawer: MenuWidget(),
-      body: _crearListadoInmuebles(inmuebleBloc),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentTab,
+        onTap: (int value) {
+          if(mounted)
+          setState(() {
+            _currentTab = value; 
+
+            if(_currentTab == 0 ){
+              Navigator.pushNamed(context, 'filtroinmueble');
+            }
+
+           if(_currentTab == 1 ){
+              Navigator.pushNamed(context, 'mensaje');
+            }
+
+            if(_currentTab == 2 ){
+              Navigator.pushNamed(context, 'perfil', arguments: preferencias.idUsuario);
+            }
+
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.filter_alt,
+              size: 30.0,
+            ),
+            title: Text('Filtrar'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.message,
+              size: 30.0,
+            ),
+            title: Text('Mensaje'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              size: 30.0,
+            ),
+            title: Text('Perfil'),
+          ),
+        ],
+      ),
+      body: 
+          _crearListadoInmuebles(inmuebleBloc)
       //floatingActionButton: _crearBoton(context),
     );
   }
@@ -71,11 +123,12 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, i) {
               {
                 Inmueble inmuebleObtenido = snapshot.data.inmuebles[i];
+
                 return SingleChildScrollView(
                   child: Container(
                     child: Column(
                       children: [
-                        // _crearSliderDeImagenes(context, inmuebleObtenido),
+                        //_crearSliderDeImagenes(context, inmuebleObtenido),
                         _crearItemInmueble(context, inmuebleObtenido),
                       ],
                     ),
@@ -87,12 +140,54 @@ class _HomePageState extends State<HomePage> {
           );
         } else {
           return Center(
-            child: CircularProgressIndicator(),
-          );
+                child: Container(
+                    color: Colors.transparent,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          Text(
+                            "¡Lo siento!",
+                            style: TextStyle(
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.redAccent),
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          FadeInImage(
+                            placeholder: AssetImage('assets/img/sorry.jpg'),
+                            image: AssetImage('assets/img/sorry.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          Text("No tienes visitas solicitadas",
+                              style: TextStyle(
+                                  fontSize: 19.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.redAccent)),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          //_crearBotonCancelar(),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                        ],
+                      ),
+                    )),
+              );
         }
       },
     );
   }
+
+  
 
   _crearItemInmueble(BuildContext context, Inmueble inmueble) {
     /*return Dismissible(
@@ -230,3 +325,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+

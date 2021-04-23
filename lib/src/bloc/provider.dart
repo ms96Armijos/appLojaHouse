@@ -3,6 +3,7 @@ import 'package:applojahouse/src/bloc/inmueble_bloc.dart';
 export 'package:applojahouse/src/bloc/inmueble_bloc.dart';
 
 import 'package:applojahouse/src/bloc/login_bloc.dart';
+import 'package:applojahouse/src/bloc/mensaje_bloc.dart';
 import 'package:applojahouse/src/bloc/perfil_bloc.dart';
 export 'package:applojahouse/src/bloc/login_bloc.dart';
 
@@ -22,6 +23,7 @@ class Provider extends InheritedWidget {
   final _registroBloc = RegistroBloc();
   final _perfilBloc = PerfilBloc();
   final _contratoBloc = ContratoBloc();
+  final _mensajeBloc = MensajeBloc();
 
 
 
@@ -71,5 +73,10 @@ class Provider extends InheritedWidget {
      static ContratoBloc contratoBloc(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(Provider) as Provider)
         ._contratoBloc;
+  }
+
+    static MensajeBloc mensajeBloc(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(Provider) as Provider)
+        ._mensajeBloc;
   }
 }
