@@ -1,5 +1,5 @@
 import 'package:applojahouse/src/pages/login_page.dart';
-import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
 import 'package:flutter/material.dart';
 
 class MenuWidget extends StatelessWidget {
@@ -25,7 +25,7 @@ class MenuWidget extends StatelessWidget {
             title: Text('Buscar inmuebles'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, 'home');
+              Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
             },
           ),
           ListTile(
@@ -41,7 +41,7 @@ class MenuWidget extends StatelessWidget {
             title: Text('Contratos de alquiler'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, 'listacontratos');
+              Navigator.pushNamed(context, 'listacontratos');
             },
           ),
           /*ListTile(
@@ -54,7 +54,7 @@ class MenuWidget extends StatelessWidget {
           ),*/
           
           Padding(
-            padding: EdgeInsets.only(bottom: 200),
+            padding: EdgeInsets.only(bottom: 230),
           ),
           Divider(),
           ListTile(
@@ -70,12 +70,13 @@ class MenuWidget extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Salir'),
             onTap: () {
-              Navigator.pop(context);
               preferencias.clear();
-              Navigator.of(context).pushAndRemoveUntil(
+              Navigator.pop(context);
+              Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+              /*Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (BuildContext context) => LoginPage()),
-                  (Route<dynamic> route) => false);
+                  (Route<dynamic> route) => false);*/
               //Navigator.pushReplacementNamed(context, '');
             },
           ),

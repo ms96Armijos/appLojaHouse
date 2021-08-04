@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "326738722626",
-    "project_id": "notificationstesis",
-    "storage_bucket": "notificationstesis.appspot.com"
+    "project_number": "653496729900",
+    "project_id": "lhproyecto-86325",
+    "storage_bucket": "lhproyecto-86325.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:326738722626:android:59336f4d05e82b798d12db",
+        "mobilesdk_app_id": "1:653496729900:android:2ac9c44e824ce0205b6c89",
         "android_client_info": {
-          "package_name": "com.example.applojahouse"
+          "package_name": "com.steeven.flutterapplojahouse"
         }
       },
       "oauth_client": [
         {
-          "client_id": "326738722626-a1iike16d0bti81as05u4b616392rl9h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.applojahouse",
-            "certificate_hash": "b92019517234f4aa7f7938c12d4c6bd7dfa07632"
-          }
-        },
-        {
-          "client_id": "326738722626-g8en1m0l4hektaeua1hg4nso7bkqb455.apps.googleusercontent.com",
+          "client_id": "653496729900-r9g89hp69nl4kir9pa82rma29030bjut.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBKmsZGuMiOXIaALmM3L2yeZk48lRHP7BE"
+          "current_key": "AIzaSyB97krJ-bkDQyvwVm92QOxDjlp237drX8s"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "326738722626-g8en1m0l4hektaeua1hg4nso7bkqb455.apps.googleusercontent.com",
+              "client_id": "653496729900-r9g89hp69nl4kir9pa82rma29030bjut.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

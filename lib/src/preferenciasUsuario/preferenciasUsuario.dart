@@ -39,6 +39,7 @@ class PreferenciasUsuario {
   set tokenFCM(String value) {
     _prefs.setString('tokenFCM', value);
   }
+  
 
   Future clear() async {
     await _prefs.clear();

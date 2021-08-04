@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:applojahouse/src/models/visita_model.dart';
 import 'package:applojahouse/src/models/visitas.dart';
-import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
+import 'package:applojahouse/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 class VisitaProvider {
-  final String _url = 'http://192.168.1.4:3000';
+  final String _url = URL;
   final preferenciaToken = new PreferenciasUsuario();
 
   Future<GetvisitaModel> obtenerVisitas() async {
@@ -36,12 +37,13 @@ class VisitaProvider {
         headers: {"Content-type": "application/json"},
         body: visitaModelToJson(visita));
     print(resp.body);
-    final decodeData = json.decode(resp.body);
-    print(url);
-
-    print(decodeData);
-
-    return true;
+    if(resp.statusCode == 200){
+      final decodeData = json.decode(resp.body);
+      print(decodeData);
+      return true;
+    }else{
+      return null;
+    }
   }
 
   Future<Map<String, dynamic>> eliminarVisita(
@@ -55,9 +57,12 @@ class VisitaProvider {
         body: json.encode(authData));
         
     print(resp.body);
-    final decodeData = json.decode(resp.body);
-
-    return decodeData;
+    if(resp.statusCode == 200){
+      final decodeData = json.decode(resp.body);
+      return decodeData;
+    }else{
+      return null;
+    }
   }
 
  /* Future<int> borrarVisita(String id) async {

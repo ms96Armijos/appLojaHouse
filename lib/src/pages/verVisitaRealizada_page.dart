@@ -155,7 +155,7 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
                                             ['imagen'] !=
                                         null)
                                     ? NetworkImage(
-                                        'http://192.168.1.4:3000/img/usuarios/${snapshot.data['usuario']['imagen']}')
+                                        snapshot.data['usuario']['imagen'][0]['url'].toString())
                                     : NetworkImage(
                                         'https://cdn2.f-cdn.com/contestentries/1316431/24595406/5ae8a3f2e4e98_thumb900.jpg'),
                               ),
@@ -240,7 +240,7 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
               placeholder: AssetImage('assets/img/jar-loading.gif'),
-              image: NetworkImage(visitaModel.inmueble.imagen[index]),
+              image: NetworkImage(visitaModel.inmueble.imagen[index].url.toString()),
               height: 300.0,
               width: 300.0,
               fit: BoxFit.cover,

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:applojahouse/src/bloc/validators.dart';
+import 'package:applojahouse/src/utils/validators.dart';
 import 'package:applojahouse/src/models/mensaje.model.dart';
 import 'package:applojahouse/src/providers/mensaje_provider.dart';
 import 'package:rxdart/rxdart.dart';

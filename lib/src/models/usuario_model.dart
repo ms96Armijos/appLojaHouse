@@ -30,7 +30,7 @@ class UsuarioModel {
   String apellido;
   String correo;
   String password;
-  String imagen;
+  List<dynamic> imagen;
   String cedula;
   String movil;
   String convencional;
@@ -44,7 +44,7 @@ class UsuarioModel {
         apellido: json["apellido"],
         correo: json["correo"],
         password: json["password"],
-        imagen: json["imagen"],
+        imagen: List<String>.from(json["imagen"].map((x) => x)),
         cedula: json["cedula"],
         movil: json["movil"],
         convencional: json["convencional"],

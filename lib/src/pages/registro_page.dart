@@ -233,6 +233,7 @@ class _RegistroPageState extends State<RegistroPage> {
     usuario.correo = bloc.email.toString();
 
     Map respuesta = await bloc.registrarNuevoUsuario(usuario);
+    print(respuesta);
     if (respuesta['ok']) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (BuildContext context) => LoginPage()),

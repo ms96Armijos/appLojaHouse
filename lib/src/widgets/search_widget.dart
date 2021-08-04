@@ -69,22 +69,27 @@ class DataSearch extends SearchDelegate {
       builder:
           (BuildContext context, AsyncSnapshot<InmuebleModel> snapshot) {
         if (snapshot.hasData) {
-          final peliculas = snapshot.data;
+          final inmuebles = snapshot.data;
 
           return ListView.builder(
-            itemCount: peliculas.inmuebles.length,
+            itemCount: inmuebles.inmuebles.length,
             itemBuilder: (context, i) {
               {
-                Inmueble inmuebleObtenido = peliculas.inmuebles[i];
+                Inmueble inmuebleObtenido = inmuebles.inmuebles[i];
                 return SingleChildScrollView(
                   child: Container(
                     child: Column(
                       children: [
                         // _crearSliderDeImagenes(context, inmuebleObtenido),
                         ListTile(
-                          leading: FadeInImage(
+                          leading: inmuebleObtenido.imagen.length>0?FadeInImage(
                             placeholder: AssetImage('assets/img/camera.png'),
-                            image: NetworkImage(inmuebleObtenido.imagen[0]),
+                            image: NetworkImage(inmuebleObtenido.imagen[0].url.toString()),
+                            width: 50.0,
+                            fit: BoxFit.contain,
+                          ):FadeInImage(
+                            placeholder: AssetImage('assets/img/no-image.png'),
+                            image:  AssetImage('assets/img/no-image.png'),
                             width: 50.0,
                             fit: BoxFit.contain,
                           ),

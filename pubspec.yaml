@@ -44,6 +44,7 @@ dependencies:
   path_provider: ^1.6.5
   flutter_full_pdf_viewer: ^1.0.6
   jwt_decoder: ^1.0.4
+  flutter_launcher_icons: ^0.7.2+1
 
   firebase_messaging: ^7.0.3
   #firebase_core: ^0.7.0
@@ -57,6 +58,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/img/house.png"
+  image_path_ios: "assets/img/house.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

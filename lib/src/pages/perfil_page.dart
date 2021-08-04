@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:applojahouse/src/bloc/perfil_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
-import 'package:applojahouse/src/common/debouncer.dart';
+import 'package:applojahouse/src/pages/login_page.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
+import 'package:applojahouse/src/providers/usuario_provider.dart';
+import 'package:applojahouse/src/utils/debouncer.dart';
 import 'package:applojahouse/src/models/usuario_model.dart';
-import 'package:applojahouse/src/widgets/menu_widget.dart';
+import 'package:applojahouse/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -22,6 +25,23 @@ class _PerfilPageState extends State<PerfilPage> {
 
   bool circularProgress = false;
   PerfilBloc perfilBloc;
+  final usuarioProvider = UsuarioProvider();
+  final preferencias = new PreferenciasUsuario();
+
+  bool estaLogueado = false;
+
+
+  Future<void> verificarToken() async{
+    bool verify = await usuarioProvider.verificarToken();
+    if(verify){
+      estaLogueado = false;
+     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }else{
+      estaLogueado = true;
+      print('Token válido ${preferencias.token}');
+    }
+  }
+
 
   TextEditingController _nombresController = TextEditingController();
   TextEditingController _apellidosController = TextEditingController();
@@ -40,7 +60,7 @@ class _PerfilPageState extends State<PerfilPage> {
           title: Text('Perfil de usuario'),
         ),
         key: scaffoldKey,
-        drawer: MenuWidget(),
+        //drawer: MenuWidget(),
         body: Form(
           key: _globalKey,
           child: ListView(
@@ -54,17 +74,22 @@ class _PerfilPageState extends State<PerfilPage> {
                   if (snapshot.hasError) {
                     print("eroro: " + snapshot.hasError.toString());
                   }
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data['usuario'] != null) {
                     _nombresController.text =
                         snapshot.data['usuario']['nombre'];
                     _apellidosController.text =
                         snapshot.data['usuario']['apellido'];
                     _cedulaController.text = snapshot.data['usuario']['cedula'];
-                    _celularController.text = snapshot.data['usuario']['movil'];
+                    _celularController.text = '0'+snapshot.data['usuario']['movil'].toString().substring(4,13);
                     _telefonoController.text =
                         snapshot.data['usuario']['convencional'];
                     id = snapshot.data['usuario']['_id'];
-                    fotoUser = snapshot.data['usuario']['imagen'];
+                    if(snapshot.data['usuario']['imagen'].toString().isEmpty){
+                      fotoUser = snapshot.data['usuario']['imagen'][0]['url'].toString();
+                    }else{
+                      fotoUser = URLFOTOPERFIL;
+                    }
+                    //print(snapshot.data['usuario']['imagen'][0]['url']);
                     return Column(
                       children: [
                         actualizarImagenPerfilUsuario(),
@@ -101,7 +126,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         )
                       ],
                     );
-                  } else {
+                  }else {
                     print("no hay datos ");
                     return Center(
                       child: Container(
@@ -139,7 +164,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                 SizedBox(
                                   height: 30.0,
                                 ),
-                                //_crearBotonCancelar(),
+                                _crearBotonRegresar(context),
                                 SizedBox(
                                   height: 30.0,
                                 ),
@@ -153,6 +178,24 @@ class _PerfilPageState extends State<PerfilPage> {
             ],
           ),
         ));
+  }
+
+      _crearBotonRegresar(BuildContext context) {
+    return RaisedButton(
+      color: Colors.blueAccent,
+      onPressed: () {
+        //Navigator.pop(context);
+        //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, 'home');
+      },
+      elevation: 4.0,
+      splashColor: Colors.blueGrey,
+      child: Text(
+        'Regresar'.toUpperCase(),
+        style: TextStyle(color: Colors.white, fontSize: 16.0),
+      ),
+    );
   }
 
   _crearBoton(PerfilBloc bloc) {
@@ -259,7 +302,7 @@ class _PerfilPageState extends State<PerfilPage> {
     user.nombre = _nombresController.text.toString();
     user.apellido = _apellidosController.text.toString();
     user.cedula = _cedulaController.text.toString();
-    user.movil = _celularController.text.toString();
+    user.movil = '593'+_celularController.text.toString();
     user.convencional = _telefonoController.text.toString();
     user.id = id;
 
@@ -294,7 +337,7 @@ class _PerfilPageState extends State<PerfilPage> {
           CircleAvatar(
             radius: 80.0,
             backgroundImage: _imageFile == null
-                ? NetworkImage('http://192.168.1.4:3000/img/usuarios/$fotoUser')
+                ? NetworkImage(fotoUser)
                 : FileImage(File(_imageFile.path)),
             backgroundColor: Colors.blueAccent,
           ),
@@ -444,7 +487,7 @@ class _PerfilPageState extends State<PerfilPage> {
           child: TextFormField(
             onSaved: (value) => _cedulaController.text = value,
             validator: (value) {
-              if (value.length <= 0) {
+              if (value.length <= 0 || value.length <10) {
                 return 'Ingrese su número de cédula';
               } else {
                 return null;
@@ -477,9 +520,11 @@ class _PerfilPageState extends State<PerfilPage> {
           child: TextFormField(
             onSaved: (value) => _celularController.text = value,
             validator: (value) {
-              if (value.length <= 0) {
+              if (value.length <= 0 || value.length <10) {
                 return 'Ingrese su número de celular';
-              } else {
+              } else if(value.length>10){
+                return 'Debe contener 10 dígitos';
+              }else {
                 return null;
               }
             },

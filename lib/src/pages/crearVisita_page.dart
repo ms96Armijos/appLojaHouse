@@ -1,7 +1,7 @@
-import 'package:applojahouse/src/common/debouncer.dart';
+import 'package:applojahouse/src/utils/debouncer.dart';
 import 'package:applojahouse/src/models/inmueble_model.dart';
 import 'package:applojahouse/src/models/visita_model.dart';
-import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
 import 'package:applojahouse/src/providers/visita_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -49,7 +49,7 @@ class _VisitaPageState extends State<VisitaPage> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Text('Visitas'),
+        title: Text('Solicitar visita'),
         /* actions: [
           IconButton(
             icon: Icon(Icons.photo_size_select_actual),
@@ -70,11 +70,11 @@ class _VisitaPageState extends State<VisitaPage> {
                 key: formKey,
                 child: Column(
                   children: [
-                    _crearBanerSolicitarVisita(),
+                    preferencias.token.toString().length>0? _crearBanerSolicitarVisita(): Container(),
                     SizedBox(
                       height: 20.0,
                     ),
-                    _crearBoton(),
+                    preferencias.token.toString().length>0? _crearBoton(): _botonRedirigirLogin(),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -88,6 +88,26 @@ class _VisitaPageState extends State<VisitaPage> {
       ),
     );
   }
+
+
+  _botonRedirigirLogin() {
+    return RaisedButton(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
+            child: Text('Iniciar sesión'.toUpperCase()),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          elevation: 10.0,
+          color: Colors.blueAccent,
+          textColor: Colors.white,
+          onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamedAndRemoveUntil('login', (route) => false);
+                },
+        );
+  }
+
 
   String _fechaActual(DateTime fecha) {
     String fechaFormateada = DateFormat('dd-MM-yyyy').format(fecha);
@@ -221,13 +241,13 @@ class _VisitaPageState extends State<VisitaPage> {
       padding: EdgeInsets.only(top: 10.0),
       width: double.infinity,
       height: 250.0,
-      child: Swiper(
+      child: inmuebleModel.imagen.length>0?Swiper(
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
-              placeholder: AssetImage('assets/img/jar-loading.gif'),
-              image: NetworkImage(inmuebleModel.imagen[index]),
+              placeholder: AssetImage('assets/img/caracol.gif'),
+              image: NetworkImage(inmuebleModel.imagen[index].url.toString()),
               height: 300.0,
               width: 300.0,
               fit: BoxFit.cover,
@@ -237,7 +257,13 @@ class _VisitaPageState extends State<VisitaPage> {
         autoplay: true,
         itemCount: inmuebleModel.imagen.length,
         pagination: new SwiperPagination(),
-      ),
+      ):FadeInImage(
+              placeholder: AssetImage('assets/img/no-image.png'),
+              image:  AssetImage('assets/img/no-image.png'),
+              height: 300.0,
+              width: 300.0,
+              fit: BoxFit.cover,
+            ),
     );
 
     /*return ListView(
@@ -309,14 +335,14 @@ class _VisitaPageState extends State<VisitaPage> {
                 Row(
                   children: [
                     Icon(
-                      Icons.money_off_csred_outlined,
+                      Icons.attach_money_rounded,
                       color: Colors.red,
-                      size: 20.0,
+                      size: 25.0,
                     ),
                     Text(
                       inmuebleModel.precioalquiler.toString(),
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 25.0,
                         color: Colors.red,
                       ),
                     ),

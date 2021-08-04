@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:applojahouse/src/models/usuario_model.dart';
-import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
+import 'package:applojahouse/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 class UsuarioProvider {
-  final String _url = 'http://192.168.1.4:3000';
+  final String _url = URL;
       final preferencias = new PreferenciasUsuario();
 
 
@@ -14,29 +15,39 @@ class UsuarioProvider {
     final resp = await http.post(url,
         headers: {"Content-type": "application/json"},
         body: usuarioModelToJson(usuario));
-    final decodeData = json.decode(resp.body);
-
-    //responde el mensaje de error del backend o la respuesta json
-    //print(decodeData['mensaje']);
-
-    return decodeData;
+      if(resp.statusCode == 200){
+        final decodeData = json.decode(resp.body);
+        //responde el mensaje de error del backend o la respuesta json
+        //print(decodeData['mensaje']);
+        return decodeData;
+      }else{
+        return null;
+      }
   }
 
   Future<Map<String, dynamic>> obtenerUsuario() async{
     final url = '$_url/usuario/obtenerusuario/' + preferencias.idUsuario +'?token='+ preferencias.token;
     final resp = await http.get( url, headers: {"Content-type": "application/json"},);
-    final body = json.decode(resp.body);
-   //print(body);
-    return body;
+    if(resp.statusCode == 200){
+      final body = json.decode(resp.body);
+    //print(body);
+      return body;
+    }else{
+      return null;
+    }
   }
 
 
   Future<Map<String, dynamic>> obtenerUsuarioEspecifico(String id) async{
     final url = '$_url/usuario/obtenerusuario/$id'+'?token='+ preferencias.token;
     final resp = await http.get( url, headers: {"Content-type": "application/json"},);
-    final body = json.decode(resp.body);
-    //print(resp.body);
-    return body;
+    if(resp.statusCode == 200){
+      final body = json.decode(resp.body);
+      //print(resp.body);
+      return body;
+    }else{
+      return null;
+    }
   }
 
 
@@ -48,7 +59,6 @@ class UsuarioProvider {
     request.headers.addAll(
       {"Content-type": "multipart/form-data"}
       );
-
       var response = request.send();
       return response;
   }
@@ -57,9 +67,14 @@ class UsuarioProvider {
   Future<bool> editarDatosDelPerfilUsuario(UsuarioModel usuario) async{
     final url = '$_url/usuario/actualizarusuario/${preferencias.idUsuario}?token=${preferencias.token}';
     final respuesta = await http.put(url, headers: {"Content-type": "application/json"}, body: usuarioModelToJson(usuario));
-    final body = json.decode(respuesta.body);
-    print(body);
-    return true;
+    if(respuesta.statusCode == 200){
+      final body = json.decode(respuesta.body);
+      print(body);
+      return true;
+    }else{
+      return null;
+    }
+    
   }
 
 
@@ -71,10 +86,14 @@ class UsuarioProvider {
     final respuesta = await http.put(url, 
     headers: {"Content-type": "application/json"}, 
     body: json.encode(authData));
-
-    final body = json.decode(respuesta.body);
+    
+    if(respuesta.statusCode == 200){
+      final body = json.decode(respuesta.body);
     print(body);
     return true;
+    }else{ 
+      return null;
+    }
   }
 
   Future<Map<String, dynamic>> login(String correo, String password) async {
@@ -84,10 +103,9 @@ class UsuarioProvider {
     final resp = await http.post(url,
         headers: {"Content-type": "application/json"},
         body: json.encode(authData));
-    final decodeData = json.decode(resp.body);
-
-   // print(decodeData);
-    return decodeData;
+        final decodeData = json.decode(resp.body);
+        // print(decodeData);
+          return decodeData;
   }
 
 
@@ -98,10 +116,13 @@ class UsuarioProvider {
     final resp = await http.put(url,
         headers: {"Content-type": "application/json"},
         body: json.encode(authData));
-    final decodeData = json.decode(resp.body);
-
-   // print(decodeData);
-    return decodeData;
+      if(resp.statusCode == 200){
+        final decodeData = json.decode(resp.body);
+        // print(decodeData);
+        return decodeData;
+      }else{
+        return null;
+      }
   }
 
      Future<Map<String, dynamic>> cambiarPassword(String password) async {
@@ -111,18 +132,25 @@ class UsuarioProvider {
     final resp = await http.put(url,
         headers: {"Content-type": "application/json"},
         body: json.encode(authData));
-    final decodeData = json.decode(resp.body);
-
-    //print(preferencias);
-    return decodeData;
+    if(resp.statusCode == 200 ){
+      final decodeData = json.decode(resp.body);
+      //print(preferencias);
+      return decodeData;
+    }else{
+      return null;
+    }
   }
 
 
  Future<Map<String, dynamic>> validarUsuario(String correo) async{
     final url = '$_url/usuario/validar/usuario/$correo';
     final resp = await http.get( url, headers: {"Content-type": "application/json"},);
-    final body = json.decode(resp.body);
-    return body;
+    if(resp.statusCode == 200){
+      final body = json.decode(resp.body);
+      return body;
+    }else{
+      return null;
+    }
   }
 
     Future<bool> verificarToken() async {

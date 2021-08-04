@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:applojahouse/src/bloc/validators.dart';
-import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/utils/validators.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
 import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -52,6 +52,7 @@ Map<String, dynamic> decodedToken = JwtDecoder.decode(data['token']);
   // Now you can use your decoded token
   //print('Token ${decodedToken['usuario']['_id']}');
 
+    
     if(data.toString().contains('token')){
       _preferenciasDelUsuario.token = data['token'];
       _preferenciasDelUsuario.idUsuario = decodedToken['usuario']['_id'];

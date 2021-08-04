@@ -1,8 +1,7 @@
 import 'package:applojahouse/src/bloc/inmueble_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/models/inmueble_model.dart';
-import 'package:applojahouse/src/pages/login_page.dart';
-import 'package:applojahouse/src/preferenciasUsuario/preferencias_usuario.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
 import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:applojahouse/src/widgets/menu_widget.dart';
 import 'package:applojahouse/src/widgets/search_widget.dart';
@@ -13,24 +12,26 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-  int currentTab = 0;
 
 class _HomePageState extends State<HomePage> {
   final estiloTitulo = TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
-
   final estiloSubTitulo = TextStyle(fontSize: 13.0, color: Colors.grey);
+  
   final usuarioProvider = UsuarioProvider();
   final preferencias = new PreferenciasUsuario();
 
     int _currentTab = 1;
+    bool estaLogueado = false;
 
 
   Future<void> verificarToken() async{
     bool verify = await usuarioProvider.verificarToken();
     if(verify){
-     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+      estaLogueado = false;
+     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
     }else{
-      print('Token válido');
+      estaLogueado = true;
+      print('Token válido ${preferencias.token}');
     }
   }
 
@@ -38,7 +39,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    verificarToken();
+    setState(() {
+      verificarToken();
+    });
   }
 
   @override
@@ -60,9 +63,9 @@ class _HomePageState extends State<HomePage> {
             ),
         ],
       ),
-      drawer: MenuWidget(),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentTab,
+      drawer: preferencias.token.toString().length>0? MenuWidget(): null,
+      bottomNavigationBar: preferencias.token.toString().length>0? BottomNavigationBar(
+        currentIndex:  _currentTab,
         onTap: (int value) {
           if(mounted)
           setState(() {
@@ -75,8 +78,8 @@ class _HomePageState extends State<HomePage> {
            if(_currentTab == 1 ){
               Navigator.pushNamed(context, 'mensaje');
             }
-
-            if(_currentTab == 2 ){
+  
+            if(_currentTab == 2){
               Navigator.pushNamed(context, 'perfil', arguments: preferencias.idUsuario);
             }
 
@@ -103,6 +106,51 @@ class _HomePageState extends State<HomePage> {
               size: 30.0,
             ),
             title: Text('Perfil'),
+          ),
+        ],
+      ):
+      BottomNavigationBar(
+        currentIndex:  _currentTab,
+        onTap: (int value) {
+          if(mounted)
+          setState(() {
+            _currentTab = value; 
+
+            if(_currentTab == 0 ){
+              Navigator.pushNamed(context, 'filtroinmueble');
+            }
+
+           if(_currentTab == 1 ){
+              Navigator.pushNamed(context, 'mensaje');
+            }
+  
+            if(_currentTab == 2){
+              Navigator.pushNamed(context, 'login');
+            }
+
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.filter_alt,
+              size: 30.0,
+            ),
+            title: Text('Filtrar'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.message,
+              size: 30.0,
+            ),
+            title: Text('Mensaje'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.login,
+              size: 30.0,
+            ),
+            title: Text('Login'),
           ),
         ],
       ),
@@ -139,7 +187,8 @@ class _HomePageState extends State<HomePage> {
             },
           );
         } else {
-          return Center(
+
+         return Center(
                 child: Container(
                     color: Colors.transparent,
                     child: SingleChildScrollView(
@@ -159,14 +208,14 @@ class _HomePageState extends State<HomePage> {
                             height: 15.0,
                           ),
                           FadeInImage(
-                            placeholder: AssetImage('assets/img/sorry.jpg'),
-                            image: AssetImage('assets/img/sorry.jpg'),
+                            placeholder: AssetImage('assets/img/empty.png'),
+                            image: AssetImage('assets/img/empty.png'),
                             fit: BoxFit.cover,
                           ),
                           SizedBox(
                             height: 15.0,
                           ),
-                          Text("No tienes visitas solicitadas",
+                          Text("No hay inmuebles para mostrar",
                               style: TextStyle(
                                   fontSize: 19.0,
                                   fontWeight: FontWeight.bold,
@@ -268,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                     size: 40.0,
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 20.0,
                   ),
                   Text(
                     inmueble.estado.toString(),
@@ -278,14 +327,14 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Icon(
-                        Icons.money_off_csred_outlined,
+                        Icons.attach_money_rounded,
                         color: Colors.red,
-                        size: 20.0,
+                        size: 25.0,
                       ),
                       Text(
                         inmueble.precioalquiler.toString(),
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 25.0,
                           color: Colors.red,
                         ),
                       ),
@@ -305,13 +354,13 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 10.0),
       width: double.infinity,
       height: 250.0,
-      child: Swiper(
+      child: inmuebleModel.imagen.length>0?Swiper(
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
-              placeholder: AssetImage('assets/img/jar-loading.gif'),
-              image: NetworkImage(inmuebleModel.imagen[index]),
+              placeholder: AssetImage('assets/img/caracol.gif'),
+              image: NetworkImage(inmuebleModel.imagen[index].url.toString()),
               height: 300.0,
               width: 300.0,
               fit: BoxFit.cover,
@@ -321,7 +370,13 @@ class _HomePageState extends State<HomePage> {
         autoplay: true,
         itemCount: inmuebleModel.imagen.length,
         pagination: new SwiperPagination(),
-      ),
+      ):FadeInImage(
+              placeholder: AssetImage('assets/img/no-image.png'),
+              image:  AssetImage('assets/img/no-image.png'),
+              height: 300.0,
+              width: 300.0,
+              fit: BoxFit.cover,
+            ),
     );
   }
 }

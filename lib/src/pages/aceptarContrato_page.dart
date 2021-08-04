@@ -5,6 +5,7 @@ import 'package:applojahouse/src/bloc/perfil_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/models/contrato_model.dart';
 import 'package:applojahouse/src/pages/visualizarContrato_page.dart';
+import 'package:applojahouse/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -454,8 +455,8 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
   _aceptarAcuerdo(BuildContext context, ContratoBloc bloc) async {
     String aceptarAcuerdo = '';
     if (_blouearCheck == true) {
-      aceptarAcuerdo = 'ACEPTADO';
-      cambiarEstado="VIGENTE";
+      aceptarAcuerdo = ACEPTADO;
+      cambiarEstado= VIGENTE;
       print(aceptarAcuerdo);
       Map respuesta =
           await bloc.aceptarContrato(contratoModel.id, aceptarAcuerdo, cambiarEstado);
@@ -470,7 +471,7 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
   _crearCheckBox() {
     return Checkbox(
         value: _blouearCheck,
-        onChanged: (contratoModel.acuerdo != 'ACEPTADO')
+        onChanged: (contratoModel.acuerdo != ACEPTADO)
             ? (value) {
               if(mounted)
                 setState(() {

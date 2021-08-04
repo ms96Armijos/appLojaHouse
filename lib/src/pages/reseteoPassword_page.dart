@@ -1,5 +1,5 @@
 import 'package:applojahouse/src/bloc/provider.dart';
-import 'package:applojahouse/src/common/debouncer.dart';
+import 'package:applojahouse/src/utils/debouncer.dart';
 import 'package:applojahouse/src/utils/utils.dart';
 import 'package:applojahouse/src/widgets/banner_widget.dart';
 import 'package:flutter/material.dart';

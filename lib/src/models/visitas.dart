@@ -92,7 +92,7 @@ class Inmueble {
     });
 
     List<String> servicio;
-    List<String> imagen;
+    List<Imagen> imagen;
     String estado;
     String publicado;
     String id;
@@ -109,7 +109,7 @@ class Inmueble {
 
     factory Inmueble.fromJson(Map<String, dynamic> json) => Inmueble(
         servicio: List<String>.from(json["servicio"].map((x) => x)),
-        imagen: List<String>.from(json["imagen"].map((x) => x)),
+        imagen: List<Imagen>.from(json["imagen"].map((x) => Imagen.fromJson(x))),
         estado: json["estado"],
         publicado: json["publicado"],
         id: json["_id"],
@@ -127,7 +127,7 @@ class Inmueble {
 
     Map<String, dynamic> toJson() => {
         "servicio": List<dynamic>.from(servicio.map((x) => x)),
-        "imagen": List<dynamic>.from(imagen.map((x) => x)),
+        "imagen": List<dynamic>.from(imagen.map((x) => x.toJson())),
         "estado": estado,
         "publicado": publicado,
         "_id": id,
@@ -141,6 +141,35 @@ class Inmueble {
         "usuario": usuario,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+    };
+    
+}
+
+class Imagen {
+    Imagen({
+        this.id,
+        this.url,
+        this.inmueble,
+        this.publicId,
+    });
+
+    String id;
+    String url;
+    String inmueble;
+    String publicId;
+
+    factory Imagen.fromJson(Map<String, dynamic> json) => Imagen(
+        id: json["_id"],
+        url: json["url"],
+        inmueble: json["inmueble"],
+        publicId: json["public_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+        "url": url,
+        "inmueble": inmueble,
+        "public_id": publicId,
     };
 }
 
@@ -160,7 +189,7 @@ class Usuarioarrendatario {
     String apellido;
     String correo;
     String movil;
-    String imagen;
+    List<dynamic> imagen;
     String cedula;
 
     factory Usuarioarrendatario.fromJson(Map<String, dynamic> json) => Usuarioarrendatario(
@@ -169,7 +198,7 @@ class Usuarioarrendatario {
         apellido: json["apellido"],
         correo: json["correo"],
         movil: json["movil"],
-        imagen: json["imagen"],
+        imagen: List<dynamic>.from(json["imagen"].map((x) => x)),
         cedula: json["cedula"],
     );
 
@@ -182,4 +211,5 @@ class Usuarioarrendatario {
         "imagen": imagen,
         "cedula": cedula,
     };
+    
 }

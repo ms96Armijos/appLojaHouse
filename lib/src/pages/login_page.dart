@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             width: size.width * 0.85,
             margin: EdgeInsets.symmetric(vertical: 30.0),
-            padding: EdgeInsets.symmetric(vertical: 50.0),
+            padding: EdgeInsets.symmetric(vertical: 30.0),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5.0),
@@ -116,6 +116,14 @@ class _LoginPageState extends State<LoginPage> {
                 ]),
             child: Column(
               children: [
+                ListTile(
+            leading: Icon(Icons.arrow_back_outlined),
+            title: Text('Regresar', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45)),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+            },
+          ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

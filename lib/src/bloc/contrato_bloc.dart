@@ -10,6 +10,7 @@ class ContratoBloc {
   final _contratoProvider = new ContratoProvider();
 
 
+  //Recuperar datos del stream
   Stream<ContratoModel> get contratosStream => _contratoController.stream;
 
 
@@ -17,6 +18,7 @@ class ContratoBloc {
     final contratos = await _contratoProvider.obtenerContratos(cantidad);
     print("Obntenidos: ${contratos.total}");
    if(!_contratoController.isClosed){
+     //inserto el resultado al stream
       _contratoController.sink.add(contratos);
    }
   }
@@ -32,14 +34,10 @@ class ContratoBloc {
     //_pefilController.sink.add(usuario);
   }
 
-
  Future<Map<String, dynamic>> aceptarContrato(String id, String acuerdo, String estado) async {
     final respuesta = await _contratoProvider.aceptarContrato(id, acuerdo, estado);
     return respuesta;
   }
-
-
-
 
   dispose(){
     _contratoController?.close();

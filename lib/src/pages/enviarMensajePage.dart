@@ -1,8 +1,7 @@
 import 'package:applojahouse/src/bloc/mensaje_bloc.dart';
 import 'package:applojahouse/src/bloc/provider.dart';
-import 'package:applojahouse/src/common/debouncer.dart';
+import 'package:applojahouse/src/utils/debouncer.dart';
 import 'package:applojahouse/src/models/mensaje.model.dart';
-import 'package:applojahouse/src/pages/homePageModificada.dart';
 import 'package:applojahouse/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -58,10 +57,10 @@ class _MensajePageState extends State<MensajePage> {
           Container(
             width: size.width * 0.85,
             margin: EdgeInsets.symmetric(vertical: 30.0),
-            padding: EdgeInsets.symmetric(vertical: 40.0),
+            padding: EdgeInsets.symmetric(vertical: 30.0),
             decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black26,
@@ -71,6 +70,16 @@ class _MensajePageState extends State<MensajePage> {
                 ]),
             child: Column(
               children: [
+                ListTile(
+            leading: Icon(Icons.arrow_back_outlined),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+            },
+          ),
+           SizedBox(
+            height: 10.0,
+          ),
           Text(
                 'Contáctate con el administrador',
                 style: TextStyle(
@@ -89,10 +98,12 @@ class _MensajePageState extends State<MensajePage> {
               ],
             ),
           ),
+      
           SizedBox(
-            height: 10.0,
+            height: 50.0,
           ),
         ],
+        
       ),
     );
   }

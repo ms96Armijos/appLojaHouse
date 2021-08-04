@@ -39,12 +39,15 @@ class Inmueble {
         this.precioalquiler,
         this.garantia,
         this.usuario,
+        this.barrio,
+        this.ciudad,
+        this.provincia,
         this.createdAt,
         this.updatedAt,
     });
 
     List<String> servicio;
-    List<String> imagen;
+    List<Imagen> imagen;
     String estado;
     String publicado;
     String id;
@@ -56,12 +59,15 @@ class Inmueble {
     int precioalquiler;
     int garantia;
     UsuarioInmueble usuario;
+    String barrio;
+    String ciudad;
+    String provincia;
     DateTime createdAt;
     DateTime updatedAt;
 
     factory Inmueble.fromJson(Map<String, dynamic> json) => Inmueble(
         servicio: List<String>.from(json["servicio"].map((x) => x)),
-        imagen: List<String>.from(json["imagen"].map((x) => x)),
+        imagen: List<Imagen>.from(json["imagen"].map((x) => Imagen.fromJson(x))),
         estado: json["estado"],
         publicado: json["publicado"],
         id: json["_id"],
@@ -73,13 +79,16 @@ class Inmueble {
         precioalquiler: json["precioalquiler"],
         garantia: json["garantia"],
         usuario: UsuarioInmueble.fromJson(json["usuario"]),
+        barrio: json["barrio"],
+        ciudad: json["ciudad"],
+        provincia: json["provincia"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
     );
 
     Map<String, dynamic> toJson() => {
         "servicio": List<dynamic>.from(servicio.map((x) => x)),
-        "imagen": List<dynamic>.from(imagen.map((x) => x)),
+        "imagen": List<dynamic>.from(imagen.map((x) => x.toJson())),
         "estado": estado,
         "publicado": publicado,
         "_id": id,
@@ -91,13 +100,42 @@ class Inmueble {
         "precioalquiler": precioalquiler,
         "garantia": garantia,
         "usuario": usuario.toJson(),
+        "barrio": barrio,
+        "ciudad": ciudad,
+        "provincia": provincia,
         //"createdAt": createdAt.toIso8601String(),
         //"updatedAt": updatedAt.toIso8601String(),
     };
 }
 
 
+class Imagen {
+    Imagen({
+        this.id,
+        this.url,
+        this.inmueble,
+        this.publicId,
+    });
 
+    String id;
+    String url;
+    String inmueble;
+    String publicId;
+
+    factory Imagen.fromJson(Map<String, dynamic> json) => Imagen(
+        id: json["_id"],
+        url: json["url"],
+        inmueble: json["inmueble"],
+        publicId: json["public_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+        "url": url,
+        "inmueble": inmueble,
+        "public_id": publicId,
+    };
+}
 
 
 class UsuarioInmueble {

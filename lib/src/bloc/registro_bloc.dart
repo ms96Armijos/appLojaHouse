@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:applojahouse/src/bloc/validators.dart';
+import 'package:applojahouse/src/utils/validators.dart';
 import 'package:applojahouse/src/models/usuario_model.dart';
 import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:rxdart/rxdart.dart';
