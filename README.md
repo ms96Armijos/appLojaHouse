@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+# Download from play store
+https://play.google.com/store/apps/details?id=com.steeven.flutterapplojahouse
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
