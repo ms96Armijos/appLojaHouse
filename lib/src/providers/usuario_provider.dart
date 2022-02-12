@@ -161,7 +161,7 @@ class UsuarioProvider {
       headers: {"Content-type": "application/json"},
     );
 
-    //Si el código es de acceso no autorizado, retorna true
+    //Si el código es de acceso no autorizado, retorna false
     if (resp.statusCode == 401) {
       result = true;
     } else {

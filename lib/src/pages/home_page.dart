@@ -7,6 +7,7 @@ import 'package:applojahouse/src/widgets/menu_widget.dart';
 import 'package:applojahouse/src/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:applojahouse/src/pages/filtroInmueblePage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,10 +29,14 @@ class _HomePageState extends State<HomePage> {
     bool verify = await usuarioProvider.verificarToken();
     if(verify){
       estaLogueado = false;
-     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
+      preferencias.clear();
     }else{
       estaLogueado = true;
       print('Token válido ${preferencias.token}');
+      //Navigator.pop(context);
+      //Navigator.of(context).pushNamedAndRemoveUntil('filtroinmueble', (route) => false);
+     //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => FiltroInmueblePage()), (Route<dynamic> route) => false);
+      
     }
   }
 

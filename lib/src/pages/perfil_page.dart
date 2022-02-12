@@ -10,6 +10,8 @@ import 'package:applojahouse/src/models/usuario_model.dart';
 import 'package:applojahouse/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:applojahouse/src/pages/home_page.dart';
+
 
 class PerfilPage extends StatefulWidget {
   @override
@@ -35,13 +37,23 @@ class _PerfilPageState extends State<PerfilPage> {
     bool verify = await usuarioProvider.verificarToken();
     if(verify){
       estaLogueado = false;
-     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+      preferencias.clear();
+      Navigator.pop(context);
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false); 
     }else{
       estaLogueado = true;
       print('Token válido ${preferencias.token}');
     }
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      verificarToken();
+    });
+  }
 
   TextEditingController _nombresController = TextEditingController();
   TextEditingController _apellidosController = TextEditingController();

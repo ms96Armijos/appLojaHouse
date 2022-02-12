@@ -50,8 +50,8 @@ android {
         applicationId "com.steeven.flutterapplojahouse"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 31
+        versionName "1.0.30"
         multiDexEnabled true
     }
 

@@ -14,12 +14,10 @@ class _MensajePageState extends State<MensajePage> {
   final estiloTitulo = TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
   final estiloSubTitulo = TextStyle(fontSize: 13.0, color: Colors.grey);
 
-  
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   MensajeElement mensajeElement = new MensajeElement();
-
 
   MensajeBloc mensajeBloc;
 
@@ -48,7 +46,7 @@ class _MensajePageState extends State<MensajePage> {
     );
   }
 
- _mensajeForm(BuildContext context) {
+  _mensajeForm(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -71,49 +69,54 @@ class _MensajePageState extends State<MensajePage> {
             child: Column(
               children: [
                 ListTile(
-            leading: Icon(Icons.arrow_back_outlined),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
-            },
-          ),
-           SizedBox(
-            height: 10.0,
-          ),
-          Text(
-                'Contáctate con el administrador',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.deepOrangeAccent),
-              ),   
-                SizedBox(height: 30.0,),
+                  title: Text('Regresar',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black45)),
+                  leading: Icon(Icons.arrow_back_outlined),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('home', (route) => false);
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Contáctate con el administrador',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.deepOrangeAccent),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
                 _crearTituloDelMensaje(mensajeBloc),
-                SizedBox(height: 20.0,),
+                SizedBox(
+                  height: 20.0,
+                ),
                 _crearAsuntoDelMensaje(mensajeBloc),
-                SizedBox(height: 30.0,),
+                SizedBox(
+                  height: 30.0,
+                ),
                 _crearEmail(mensajeBloc),
-                SizedBox(height: 30.0,),
+                SizedBox(
+                  height: 30.0,
+                ),
                 _crearBoton(mensajeBloc),
               ],
             ),
           ),
-      
           SizedBox(
             height: 50.0,
           ),
         ],
-        
       ),
     );
   }
 
-
-
-
-
-
- _crearBoton(MensajeBloc mensajeBloc) {
+  _crearBoton(MensajeBloc mensajeBloc) {
     return StreamBuilder(
       stream: mensajeBloc.formValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -145,20 +148,19 @@ class _MensajePageState extends State<MensajePage> {
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
-  void _crearMensaje(BuildContext context, MensajeBloc mensajeBloc) async{
-    
+  void _crearMensaje(BuildContext context, MensajeBloc mensajeBloc) async {
     mensajeElement.titulo = mensajeBloc.titulo.toString();
     mensajeElement.asunto = mensajeBloc.asunto.toString();
     mensajeElement.correo = mensajeBloc.email.toString();
     mensajeElement.fecha = tiempo;
 
     Map respuesta = await mensajeBloc.crearMensaje(mensajeElement);
-    
+
     if (respuesta['ok']) {
       mostrarSnackBar('Mensaje enviado correctamente');
       final _debouncer = Debouncer(milliseconds: 2500);
-    _debouncer.run(() => Navigator.pushReplacementNamed(context, 'home'));
-  
+      _debouncer.run(() => Navigator.pushReplacementNamed(context, 'home'));
+
       //mensajeBloc.dispose();
 
       //Navigator.pushReplacementNamed(context, 'login');
@@ -173,7 +175,6 @@ class _MensajePageState extends State<MensajePage> {
     //Navigator.pop(context);
   }
 
-
   _crearTituloDelMensaje(MensajeBloc bloc) {
     return StreamBuilder(
       stream: bloc.tituloDelMensajeStream,
@@ -183,12 +184,12 @@ class _MensajePageState extends State<MensajePage> {
           child: TextField(
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              labelText: 'Título del mensaje',
-              hintText: 'Ejm.: Recuperar cuenta',
-              errorText: snapshot.error,
-              border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
-              onChanged: bloc.changeTituloMensaje,
+                labelText: 'Título del mensaje',
+                hintText: 'Ejm.: Recuperar cuenta',
+                errorText: snapshot.error,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0))),
+            onChanged: bloc.changeTituloMensaje,
           ),
         );
       },
@@ -205,10 +206,11 @@ class _MensajePageState extends State<MensajePage> {
             maxLines: 5,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-            labelText: ('Descripción'),
-            hintText: 'Escriba el asunto del mensaje aquí',
-            errorText: snapshot.error,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
+                labelText: ('Descripción'),
+                hintText: 'Escriba el asunto del mensaje aquí',
+                errorText: snapshot.error,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0))),
             onChanged: bloc.changeAsuntoMensaje,
           ),
         );
@@ -216,7 +218,7 @@ class _MensajePageState extends State<MensajePage> {
     );
   }
 
-    _crearEmail(MensajeBloc bloc) {
+  _crearEmail(MensajeBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -225,16 +227,15 @@ class _MensajePageState extends State<MensajePage> {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              hintText: 'ejemplo@gmail.com',
-          labelText: 'Correo Electrónico',
-          errorText: snapshot.error,
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
-          onChanged: bloc.changeEmail,
+                hintText: 'ejemplo@gmail.com',
+                labelText: 'Correo Electrónico',
+                errorText: snapshot.error,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0))),
+            onChanged: bloc.changeEmail,
           ),
         );
       },
     );
   }
-
 }

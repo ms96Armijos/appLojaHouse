@@ -2,7 +2,10 @@ import 'package:applojahouse/src/bloc/provider.dart';
 import 'package:applojahouse/src/utils/debouncer.dart';
 import 'package:applojahouse/src/utils/utils.dart';
 import 'package:applojahouse/src/widgets/banner_widget.dart';
+import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:applojahouse/src/widgets/menu_widget.dart';
+import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
+import 'package:applojahouse/src/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class CambiarPasswordPage extends StatefulWidget {
@@ -15,6 +18,30 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool visible = true;
   bool visibleConfirmarPassword = true;
+
+
+ final usuarioProvider = UsuarioProvider();
+   final preferenciaToken = new PreferenciasUsuario();
+    bool estaLogueado = false;
+
+
+  Future<void> verificarToken() async{
+    bool verify = await usuarioProvider.verificarToken();
+    if(verify){
+      estaLogueado = false;
+     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
+    }else{
+      estaLogueado = true;
+      print('Token válido ${preferenciaToken.token}');
+    }
+  }
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+        verificarToken();
+  }
 
 @override
   void dispose() {
@@ -69,6 +96,17 @@ class _CambiarPasswordPage extends State<CambiarPasswordPage> {
                 ]),
             child: Column(
               children: [
+                ListTile(
+                  title: Text('Regresar',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black45)),
+                  leading: Icon(Icons.arrow_back_outlined),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('home', (route) => false);
+                  },
+                ),
                 _crearPassword(bloc),
                 _crearConfirmarPassword(bloc),
                 SizedBox(

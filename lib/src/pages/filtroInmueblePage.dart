@@ -70,25 +70,27 @@ class _FiltroInmueblePageState extends State<FiltroInmueblePage> {
   }
 
 
-    Future<void> verificarToken() async{
+    /*Future<void> verificarToken() async{
     bool verify = await usuarioProvider.verificarToken();
     if(verify){
       estaLogueado = false;
-     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
+     Navigator.pop(context);
+      Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+     //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
     }else{
       estaLogueado = true;
       print('Token válido ${preferencias.token}');
     }
-  }
+  }*/
 
-  @override
+  /*@override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
       verificarToken();
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class _FiltroInmueblePageState extends State<FiltroInmueblePage> {
         title: Text('Inmuebles'),
       ),
      // drawer: preferencias.token.toString().length>0? MenuWidget(): null,
-      bottomNavigationBar: preferencias.token.toString().length>0? BottomNavigationBar(
+      /*bottomNavigationBar: preferencias.token.toString().length>0? BottomNavigationBar(
         currentIndex:  _currentTab,
         onTap: (int value) {
           if(mounted)
@@ -186,11 +188,19 @@ class _FiltroInmueblePageState extends State<FiltroInmueblePage> {
             title: Text('Login'),
           ),
         ],
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
+            ListTile(
+            leading: Icon(Icons.arrow_back_outlined),
+            title: Text('Regresar', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45)),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+            },
+          ),
             _crearDropdown0(),
             SizedBox(
               height: 20.0,

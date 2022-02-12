@@ -99,6 +99,9 @@ class InmuebleContrato {
         this.precioalquiler,
         this.garantia,
         this.usuario,
+        this.barrio,
+        this.ciudad,
+        this.provincia,
         this.createdAt,
         this.updatedAt,
     });
@@ -116,6 +119,9 @@ class InmuebleContrato {
     int precioalquiler;
     int garantia;
     String usuario;
+    String barrio;
+    String ciudad;
+    String provincia;
     DateTime createdAt;
     DateTime updatedAt;
 
@@ -133,6 +139,9 @@ class InmuebleContrato {
         precioalquiler: json["precioalquiler"],
         garantia: json["garantia"],
         usuario: json["usuario"],
+        barrio: json["codigo"],
+        ciudad: json["codigo"],
+        provincia: json["codigo"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
     );
@@ -151,6 +160,9 @@ class InmuebleContrato {
         "precioalquiler": precioalquiler,
         "garantia": garantia,
         "usuario": usuario,
+        "barrio": barrio,
+        "ciudad": ciudad,
+        "provincia": provincia,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
     };

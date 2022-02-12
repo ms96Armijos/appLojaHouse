@@ -62,6 +62,14 @@ class _ReseteoPasswordPage extends State<ReseteoPasswordPage> {
                 ]),
             child: Column(
               children: [
+                   ListTile(
+            leading: Icon(Icons.arrow_back_outlined),
+            title: Text('Regresar', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black45)),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamedAndRemoveUntil('login', (route) => false);
+            },
+          ),
                 _crearEmail(bloc),
                 SizedBox(
                   height: 30.0,

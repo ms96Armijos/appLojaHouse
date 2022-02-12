@@ -170,8 +170,12 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 InkWell(
-                                  onTap: () => launch('tel://' +
-                                      snapshot.data['usuario']['convencional']),
+                                  onTap: () => {
+                                    if(snapshot.data['usuario']['convencional'].toString().length>0){
+                                      launch('tel://' +
+                                      snapshot.data['usuario']['convencional'])
+                                    }
+                                  },
                                   child: Column(
                                     children: [
                                       _contador(
@@ -185,10 +189,14 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
                                   width: 50,
                                 ),
                                 InkWell(
-                                  onTap: () => launchWhatsApp(
+                                  onTap: () => {
+                                    if(snapshot.data['usuario']['movil'].toString().length>0){
+                                      launchWhatsApp(
                                       phone: int.parse(
                                           snapshot.data['usuario']['movil']),
-                                      message: 'Hello'),
+                                      message: 'Hola, \"${snapshot.data['usuario']['nombre']}\" estoy interesado en su inmueble publicado en LOJAHOUSE y me gustaría acercarme a visitarlo.')
+                                    }
+                                  },
                                   child: Column(
                                     children: [
                                       _contador(
@@ -202,8 +210,12 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
                                   width: 50,
                                 ),
                                 InkWell(
-                                  onTap: () => launch('tel://' +
-                                      snapshot.data['usuario']['convencional']),
+                                  onTap: () => {
+                                    if(snapshot.data['usuario']['convencional'].toString().length>0){
+                                      launch('tel://' +
+                                      snapshot.data['usuario']['convencional'])
+                                    }
+                                  },
                                   child: _contador(
                                       context,
                                       'Llama al\nConvencional',
@@ -239,7 +251,7 @@ class _VerVisitaRealizadaPageState extends State<VerVisitaRealizadaPage> {
           return ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
-              placeholder: AssetImage('assets/img/jar-loading.gif'),
+              placeholder: AssetImage('assets/img/caracol.gif'),
               image: NetworkImage(visitaModel.inmueble.imagen[index].url.toString()),
               height: 300.0,
               width: 300.0,

@@ -6,17 +6,6 @@ class DataSearch extends SearchDelegate {
   String seleccion = '';
   final inmuebleProvider = new InmuebleProvider();
 
-  final peliculas = [
-    'Spiderman',
-    'Hackers',
-    'Robocop',
-    'IA',
-    'La muerte',
-    'Capitan America',
-  ];
-
-  final peliculasRecientes = ['Spiderman', 'Capitan America'];
-
   @override
   List<Widget> buildActions(BuildContext context) {
     //Las acciones de nuestro AppBar
@@ -118,30 +107,4 @@ class DataSearch extends SearchDelegate {
       },
     );
   }
-
-  //PARA BUSCAR EN CODIGO LOCAL(QUEMADO)
-  /* @override
-  Widget buildSuggestions(BuildContext context) {
-    //Son las sugerencias que aparecen cuando la persona escribe
-
-    final listaSugerida = (query.isEmpty)
-        ? peliculasRecientes
-        : peliculas.where(
-            (peli) => peli.toLowerCase().startsWith(query.toLowerCase())).toList();
-
-
-    return ListView.builder(
-      itemCount: listaSugerida.length,
-      itemBuilder: (context, i) {
-        return ListTile(
-          leading: Icon(Icons.movie),
-          title: Text(listaSugerida[i]),
-          onTap: () {
-            seleccion = listaSugerida[i];
-            showResults(context);
-          },
-        );
-      },
-    );
-  }*/
 }

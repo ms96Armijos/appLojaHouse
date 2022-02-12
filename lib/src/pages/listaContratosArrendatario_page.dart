@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:applojahouse/src/providers/usuario_provider.dart';
 import 'package:applojahouse/src/preferenciasUsuario/preferenciasUsuario.dart';
 import 'package:applojahouse/src/utils/utils.dart';
 import 'package:applojahouse/src/pages/home_page.dart';
@@ -23,11 +23,27 @@ class _ListaContratosArrPageState extends State<ListaContratosArrPage> {
   List<dynamic> listadoDeContratos = [];
   int _total = 0;
 
+  final usuarioProvider = UsuarioProvider();
+    bool estaLogueado = false;
+
+
+  Future<void> verificarToken() async{
+    bool verify = await usuarioProvider.verificarToken();
+    if(verify){
+      estaLogueado = false;
+     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
+    }else{
+      estaLogueado = true;
+      print('Token válido ${preferenciaToken.token}');
+    }
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    verificarToken();
   
   _scrollController  = new ScrollController();
     //agregar6(_ultimoDato);

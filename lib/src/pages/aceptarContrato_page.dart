@@ -134,13 +134,13 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
                     'PRIMERA.- El arrendador da en arrendamiento al arrendatario un ${contrato.inmueble.tipo} ubicado en ${contrato.inmueble.direccion} y que consta de los servicios de: ${contrato.inmueble.servicio.toString().replaceAll('[', '').replaceAll(']', '')}'),
             pw.Paragraph(
                 text:
-                    'SEGUNDA.- El arrendatario se compromete a mantener en perfectas condiciones el local arrendado y lo destinará única y exclusivamente para el uso de MOTIVO DE USO sin poder darle otro uso, salvo convenio posterior con el arrendador/a.'),
+                    'SEGUNDA.- El arrendatario se compromete a mantener en perfectas condiciones el local arrendado y lo destinará única y exclusivamente para el uso de VIVIENDA sin poder darle otro uso, salvo convenio posterior con el arrendador/a.'),
             pw.Paragraph(
                 text:
-                    'TERCERA.- El canon de arrendamiento será de \$${contrato.monto.toString()} dólares, valor que será cancelado de forma mensual, pagaderos y por mesadas anticipadas entre los tres primeros días del  inicio de cada mes, el mismo que dará inicio desde ${contrato.fechainicio.toString()} hasta el ${contrato.fechafin.toString()}}.En caso de ser renovado el contrato, y de así expresarlo el arrendatario se lo hará previo un reajuste del canon suscrito anteriormente. La renovación comprenderá el período de un año.En este tenor las partes renuncian expresamente el acogerse a un canon distinto del acordado tanto para este contrato, cuanto para su futura renovación. Así el arrendatario renuncia a cualquier reclamo o acción legal, que tenga como fuente este antecedente.'),
+                    'TERCERA.- El canon de arrendamiento será de \$${contrato.monto.toString()} dólares, valor que será cancelado de forma mensual, pagaderos y por mesadas anticipadas entre los tres primeros días del  inicio de cada mes, el mismo que dará inicio desde ${contrato.fechainicio.toString().substring(0,10)} hasta el ${contrato.fechafin.toString().substring(0,10)}.En caso de ser renovado el contrato, y de así expresarlo el arrendatario se lo hará previo un reajuste del canon suscrito anteriormente. La renovación comprenderá el período de un año.En este tenor las partes renuncian expresamente el acogerse a un canon distinto del acordado tanto para este contrato, cuanto para su futura renovación. Así el arrendatario renuncia a cualquier reclamo o acción legal, que tenga como fuente este antecedente.'),
             pw.Paragraph(
                 text:
-                    'CUARTA.- El plazo del presente contrato es de ${contrato.tiempocontrato.toString()} meses, el mismo que termina el ${contrato.fechafin.toString()}, pudiendo ser renovado el mismo de común acuerdo entre las partes en convenio.'),
+                    'CUARTA.- El plazo del presente contrato es de ${contrato.tiempocontrato.toString()} meses, el mismo que termina el ${contrato.fechafin.toString().substring(0,10)}, pudiendo ser renovado el mismo de común acuerdo entre las partes en convenio.'),
             pw.Paragraph(
                 text:
                     'QUINTA.- Para el término o fin del contrato, las partes deberán comunicar con noventa días de anticipación, conforme lo determina la ley, y en caso de que no se cancelen dos pensiones locativas consecutivas será motivo válido para que el arrendador/a pueda dar por terminado el presente contrato.'),
@@ -152,10 +152,10 @@ class _AceptarContratoPagePageState extends State<AceptarContratoPage> {
                     'SÉPTIMA.- El pago de los servicios básicos será cancelado por cuenta exclusiva del arrendatario.'),
             pw.Paragraph(
                 text:
-                    'OCTAVA.- En caso de presentarse alguna controversia de orden legal, las partes renuncian expresamente domicilio y fuero, y se someten a los jueces competentes de la Ciudad de.....,provincia de..., y, al trámite Verbal Sumario que de darse el caso lo amerite.'),
+                    'OCTAVA.- En caso de presentarse alguna controversia de orden legal, las partes renuncian expresamente domicilio y fuero, y se someten a los jueces competentes de la Ciudad de ${contrato.inmueble.ciudad}, provincia de ${contrato.inmueble.provincia}, y, al trámite Verbal Sumario que de darse el caso lo amerite.'),
             pw.Paragraph(
                 text:
-                    'NOVENA.- Y para dejar constancia entre las  partes y convenidas en mutuo  acuerdo  para su consecuencia final de este acto de contrato de todo lo expuesto en su contenido. Firman conjuntamente en la Ciudad de<br> ..., provincia de ..... Ecuador, el  .... del 2020'),
+                    'NOVENA.- Y para dejar constancia entre las  partes y convenidas en mutuo  acuerdo  para su consecuencia final de este acto de contrato de todo lo expuesto en su contenido. Firman conjuntamente en la Ciudad de<br> ${contrato.inmueble.ciudad}, provincia de ${contrato.inmueble.provincia} Ecuador, el  ${contrato.fechainicio.toString().substring(0,10)} del 2021'),
             pw.Paragraph(text: 'El acuerdo está ${contrato.acuerdo}'),
           ];
         }));
